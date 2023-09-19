@@ -1,10 +1,10 @@
 #!/bin/bash
 
 #Original file name
-og_filename="fdtr_connected"
+og_filename="FDTR_input"
 extension=".i"
 
-og_mesh_script="sample_connected_gb"
+og_mesh_script="FDTR_mesh"
 og_mesh_ext=".geo"
 
 
