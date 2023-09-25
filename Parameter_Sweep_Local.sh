@@ -10,11 +10,11 @@ og_mesh_ext=".geo"
 
 # Define the range of values you want to loop over
 
-x0_vals_num=("-15" "0")
+x0_vals_num=("-5" "-2" "4")
 
 #freq_vals_num=("1e6")
 
-theta_vals_num=("75" "0")
+theta_vals_num=("75")
 
 #x0_vals_num=("-15" "-10" "-5" "-4" "-3" "-2" "-1" "0" "1" "2" "3" "4" "5" "10" "15")
 
@@ -33,8 +33,8 @@ for theta_val_num in "${theta_vals_num[@]}"; do
 		
 		theta_rad=$(echo "scale=10; (90.0 - $theta_val_num) / 180.0 * 3.14159265359" | bc -l)
 		tan_theta=$(python3 -c "import math; print(-1.0*math.tan($theta_rad))")
-		#cos_theta=$(python3 -c "import math; print(math.cos($theta_rad))")
-		cos_theta=1
+		cos_theta=$(python3 -c "import math; print(math.cos($theta_rad))")
+		#cos_theta=1
 		
 		# The following are for adjusting the grain boundary refinement in the mesh script
 		# These "corrections" ensure that the boundaries align and thus keep the mesh conforming

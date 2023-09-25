@@ -32,8 +32,8 @@ for theta_val_num in "${theta_vals_num[@]}"; do
 		
 		theta_rad=$(echo "scale=10; (90.0 - $theta_val_num) / 180.0 * 3.14159265359" | bc -l)
 		tan_theta=$(python3 -c "import math; print(-1.0*math.tan($theta_rad))")
-		#cos_theta=$(python3 -c "import math; print(math.cos($theta_rad))")
-		cos_theta=1
+		cos_theta=$(python3 -c "import math; print(math.cos($theta_rad))")
+		#cos_theta=1
 		
 		# The following are for adjusting the grain boundary refinement in the mesh script
 		# These "corrections" ensure that the boundaries align and thus keep the mesh conforming
