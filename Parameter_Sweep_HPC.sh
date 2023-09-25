@@ -10,17 +10,18 @@ og_mesh_ext=".geo"
 
 # Define the range of values you want to loop over
 
-#x0_vals_num=("0" "15")
+x0_vals_num=("-5" "-2" "4")
 
 #freq_vals_num=("1e6")
 
-theta_vals_num=("0" "75")
+theta_vals_num=("75")
 
-x0_vals_num=("-15" "-10" "-5" "-4" "-3" "-2" "-1" "0" "1" "2" "3" "4" "5" "10" "15")
+#x0_vals_num=("-15" "-10" "-5" "-4" "-3" "-2" "-1" "0" "1" "2" "3" "4" "5" "10" "15")
 
-freq_vals_num=("1e6" "2e6" "4e6" "6e6" "10e6")
+freq_vals_num=("1e6")
 
 #theta_vals_num=("0" "15" "30" "45" "60" "75")
+
 
 
 # Loop over each x0_val value
@@ -97,7 +98,6 @@ for theta_val_num in "${theta_vals_num[@]}"; do
 		sed -i "s/\(z_right_down\s*=\s*\)[0-9.eE+-]\+/\1$zright_down_val/g" "${og_mesh_script}${og_mesh_ext}"
 		
 			
-		
 		# Make new 3D mesh
 		new_mesh_name="${og_mesh_script}_theta_${theta_val_num}_x0_${x0_val_num}.msh"
 		
@@ -109,7 +109,7 @@ for theta_val_num in "${theta_vals_num[@]}"; do
 
 		#gmsh "${og_mesh_script}${og_mesh_ext}" -3 -o "$new_mesh_name" -save_all >> gmsh_output.txt 2>&1 &
 		#wait	
-	
+		
 		echo "Mesh Generated, x0 = ${x0_val_num}, theta = ${theta_val_num}"
 	
 		for freq_val_num in "${freq_vals_num[@]}"; do
@@ -139,6 +139,7 @@ for theta_val_num in "${theta_vals_num[@]}"; do
 
 			# Start simulation and wait for it to finish
 			# moose_exec.sh ../purple-opt -i ${new_filename}
+			wait
 		done
 	done
 done
