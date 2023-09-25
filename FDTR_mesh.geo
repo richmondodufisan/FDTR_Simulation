@@ -1,5 +1,5 @@
 // Gmsh project created on Wed Aug 09 07:54:14 2023
-xcen = 0;
+xcen = 15;
 ycen = 0;
 radius = 8;
 dop_thick = 0.09;
@@ -17,10 +17,10 @@ x_right_up = .5000000000;
 z_left_up = 0;
 z_right_up = 0;
 
-x_left_down = -.5000000000;
-x_right_down = .5000000000;
-z_left_down = -40.0;
-z_right_down = -40.0;
+x_left_down = 40.0;
+x_right_down = 40.0;
+z_left_down = -10.85194228872253473000;
+z_right_down = -10.58399309640839807000;
 
 
 SetFactory("OpenCASCADE");
