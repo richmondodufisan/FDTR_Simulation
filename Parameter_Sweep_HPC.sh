@@ -100,7 +100,14 @@ for theta_val_num in "${theta_vals_num[@]}"; do
 		
 		# Make new 3D mesh
 		new_mesh_name="${og_mesh_script}_theta_${theta_val_num}_x0_${x0_val_num}.msh"
-		gmsh "${og_mesh_script}${og_mesh_ext}" -3 -o "$new_mesh_name" -save_all >> gmsh_output.txt 2>&1 &
+		
+		# Replace the mesh file name in the job submission script
+		sed -i "0,/new_mesh=[^ ]*/s/new_mesh=[^ ]*/new_mesh=\"$new_mesh_name\"/" "FDTR_Batch_gmsh.sh"
+		
+		# Submit Job
+		sbatch FDTR_Batch_gmsh.sh &
+		
+		# gmsh "${og_mesh_script}${og_mesh_ext}" -3 -o "$new_mesh_name" -save_all >> gmsh_output.txt 2>&1 &
 		wait
 		
 		echo "Mesh Generated, x0 = ${x0_val_num}, theta = ${theta_val_num}"
@@ -125,10 +132,10 @@ for theta_val_num in "${theta_vals_num[@]}"; do
 			sed -i "0,/file = [^ ]*/s/file = [^ ]*/file = \"$new_mesh_name\"/" "$new_filename"
 
 			# Replace the input file in the job submission script
-			sed -i "0,/script_name=[^ ]*/s/script_name=[^ ]*/script_name=\"$new_filename\"/" "FDTR_Batch_Script.sh"	
+			sed -i "0,/script_name=[^ ]*/s/script_name=[^ ]*/script_name=\"$new_filename\"/" "FDTR_Batch_MOOSE.sh"	
 
 			# Submit job
-			sbatch FDTR_Batch_Script.sh
+			sbatch FDTR_Batch_MOOSE.sh
 
 			# Start simulation and wait for it to finish
 			# moose_exec.sh ../purple-opt -i ${new_filename}

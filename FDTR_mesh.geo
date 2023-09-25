@@ -10,7 +10,7 @@ z_dir = 40;
 
 pump_refine = 0.9;
 reg_element_refine = 12;
-gb_refine = 0.6;
+gb_refine = 0.1;
 
 x_left_up = -.5000000000;
 x_right_up = .5000000000;
