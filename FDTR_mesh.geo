@@ -12,15 +12,15 @@ pump_refine = 0.5;
 reg_element_refine = 12;
 gb_refine = 0.1;
 
-x_left_up = -.5176380900;
-x_right_up = .5176380900;
+x_left_up = -1.9318516510;
+x_right_up = 1.9318516510;
 z_left_up = 0;
 z_right_up = 0;
 
 x_left_down = 40.0;
 x_right_down = 40.0;
-z_left_down = -10.85666840069199878068;
-z_right_down = -10.57926698443893401932;
+z_left_down = -11.23560578212164781726;
+z_right_down = -10.20032960300928498274;
 
 
 SetFactory("OpenCASCADE");

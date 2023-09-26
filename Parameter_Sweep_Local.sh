@@ -10,17 +10,17 @@ og_mesh_ext=".geo"
 
 # Define the range of values you want to loop over
 
-x0_vals_num=("-5" "-2" "4")
+#x0_vals_num=("-5" "-2" "4")
 
 #freq_vals_num=("1e6")
 
-theta_vals_num=("75")
+#theta_vals_num=("0" "75")
 
-#x0_vals_num=("-15" "-10" "-5" "-4" "-3" "-2" "-1" "0" "1" "2" "3" "4" "5" "10" "15")
+x0_vals_num=("-15" "-10" "-5" "-4" "-3" "-2" "-1" "0" "1" "2" "3" "4" "5" "10" "15")
 
-freq_vals_num=("1e6")
+freq_vals_num=("1e6" "2e6" "4e6" "6e6" "10e6")
 
-#theta_vals_num=("0" "15" "30" "45" "60" "75")
+theta_vals_num=("0" "15" "30" "45" "60" "75")
 
 
 
@@ -32,8 +32,9 @@ for theta_val_num in "${theta_vals_num[@]}"; do
 		sed -i "s/\(xcen\s*=\s*\)[0-9.eE+-]\+/\1$x0_val_num/g" "${og_mesh_script}${og_mesh_ext}"
 		
 		theta_rad=$(echo "scale=10; (90.0 - $theta_val_num) / 180.0 * 3.14159265359" | bc -l)
+		theta_rad_og=$(echo "scale=10; ($theta_val_num) / 180.0 * 3.14159265359" | bc -l)
 		tan_theta=$(python3 -c "import math; print(-1.0*math.tan($theta_rad))")
-		cos_theta=$(python3 -c "import math; print(math.cos($theta_rad))")
+		cos_theta=$(python3 -c "import math; print(math.cos($theta_rad_og))")
 		#cos_theta=1
 		
 		# The following are for adjusting the grain boundary refinement in the mesh script
@@ -44,7 +45,7 @@ for theta_val_num in "${theta_vals_num[@]}"; do
 		gb_width=0.1
 		
 		# refine region 10x the size of the grain boundary to the left and right
-		part_width=$(echo "scale=10; ($gb_width/$cos_theta)*10.0" | bc -l)
+		part_width=$(echo "scale=10; ($gb_width/$cos_theta)*5.0" | bc -l)
 		
 		xleft_up_val=$(echo "scale=10; -($part_width/2.0)" | bc -l)
 		xright_up_val=$(echo "scale=10; ($part_width/2.0)" | bc -l)
@@ -53,22 +54,24 @@ for theta_val_num in "${theta_vals_num[@]}"; do
 		sed -i "s/\(x_left_up\s*=\s*\)[0-9.eE+-]\+/\1$xleft_up_val/g" "${og_mesh_script}${og_mesh_ext}"			
 		sed -i "s/\(x_right_up\s*=\s*\)[0-9.eE+-]\+/\1$xright_up_val/g" "${og_mesh_script}${og_mesh_ext}"
 		
-		######### Getting x & z co-ordinates for LEFT side #########
-		xleft_down_val=$(echo "scale=10; (1.0/$tan_theta)*(-$zlen+$tan_theta*$xleft_up_val)" | bc -l)
-		zleft_down_val=-$zlen
 		
-		# Editing angle in mesh, see mesh .geo file for more details
-		if [ "$(echo "$xleft_down_val >= $xlen" | bc -l)" -eq 1 ]; then
-			xleft_down_val=$xlen
-			zleft_down_val=$(echo "($tan_theta*$xlen)-($tan_theta*$xleft_up_val)" | bc -l)
-		fi
-
+		
+		######### Getting x & z co-ordinates for LEFT side #########
 		# Checking for zero angle
 		is_angle_zero=$(python -c "theta_val_num = $theta_val_num; result = 1 if -1e-8 <= theta_val_num <= 1e-8 else 0; print(result)")
 
 		if [ "$is_angle_zero" -eq 1 ]; then
 			xleft_down_val=$xleft_up_val
 			zleft_down_val=-$zlen
+		else
+			xleft_down_val=$(echo "scale=10; (1.0/$tan_theta)*(-$zlen+$tan_theta*$xleft_up_val)" | bc -l)
+			zleft_down_val=-$zlen
+		fi
+		
+		# Editing angle in mesh, see mesh .geo file for more details
+		if [ "$(echo "$xleft_down_val >= $xlen" | bc -l)" -eq 1 ]; then
+			xleft_down_val=$xlen
+			zleft_down_val=$(echo "($tan_theta*$xlen)-($tan_theta*$xleft_up_val)" | bc -l)
 		fi
 		
 		# Replace value(s) in the mesh script
@@ -78,20 +81,20 @@ for theta_val_num in "${theta_vals_num[@]}"; do
 		
 		
 		######### Getting x & z co-ordinates for RIGHT side #########
-		xright_down_val=$(echo "scale=10; (1.0/$tan_theta)*(-$zlen+$tan_theta*$xright_up_val)" | bc -l)
-		zright_down_val=-$zlen
+		# Checking for zero angle
+		if [ "$is_angle_zero" -eq 1 ]; then
+			xright_down_val=$xright_up_val
+			zright_down_val=-$zlen
+		else
+			xright_down_val=$(echo "scale=10; (1.0/$tan_theta)*(-$zlen+$tan_theta*$xright_up_val)" | bc -l)
+			zright_down_val=-$zlen	
+		fi
 		
 		# Editing angle in mesh, see mesh .geo file for more details
 		if [ "$(echo "$xright_down_val >= $xlen" | bc -l)" -eq 1 ]; then
 			xright_down_val=$xlen
 			zright_down_val=$(echo "($tan_theta*$xlen)-($tan_theta*$xright_up_val)" | bc -l)
 		fi
-		
-		if [ "$is_angle_zero" -eq 1 ]; then
-			xright_down_val=$xright_up_val
-			zright_down_val=-$zlen
-		fi
-		
 		
 		# Replace value(s) in the mesh script
 		sed -i "s/\(x_right_down\s*=\s*\)[0-9.eE+-]\+/\1$xright_down_val/g" "${og_mesh_script}${og_mesh_ext}"			
@@ -129,6 +132,7 @@ for theta_val_num in "${theta_vals_num[@]}"; do
 			#../purple-opt -i ${new_filename} --mesh-only &
 
 			# ../purple-opt -i ${new_filename} &
+			
 			wait
 		done
 	done
