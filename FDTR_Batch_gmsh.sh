@@ -8,6 +8,6 @@
 
 og_mesh_script="FDTR_mesh"
 og_mesh_ext=".geo"
-new_mesh="FDTR_mesh_theta_75_x0_15.msh"
+new_mesh="FDTR_mesh_theta_75_x0_4.msh"
 
 gmsh "${og_mesh_script}${og_mesh_ext}" -3 -o "$new_mesh" -save_all >> gmsh_output.txt 2>&1
