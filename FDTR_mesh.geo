@@ -1,5 +1,5 @@
 // Gmsh project created on Wed Aug 09 07:54:14 2023
-xcen = 4;
+xcen = -4;
 ycen = 0;
 radius = 8;
 dop_thick = 0.09;
@@ -8,9 +8,9 @@ x_dir = 40;
 y_dir = 20;
 z_dir = 40;
 
-pump_refine = 0.9;
+pump_refine = 0.5;
 reg_element_refine = 12;
-gb_refine = 0.9;
+gb_refine = 0.1;
 
 x_left_up = -.5176380900;
 x_right_up = .5176380900;
@@ -25,13 +25,13 @@ z_right_down = -10.57926698443893401932;
 
 SetFactory("OpenCASCADE");
 //+
-Point(1) = {x_dir, y_dir, 0, reg_element_refine};
+Point(1) = {x_dir, y_dir, 0, reg_element_refine/2};
 //+
-Point(2) = {x_dir, -y_dir, 0, reg_element_refine};
+Point(2) = {x_dir, -y_dir, 0, reg_element_refine/2};
 //+
-Point(3) = {-x_dir, -y_dir, 0, reg_element_refine};
+Point(3) = {-x_dir, -y_dir, 0, reg_element_refine/2};
 //+
-Point(4) = {-x_dir, y_dir, 0, reg_element_refine};
+Point(4) = {-x_dir, y_dir, 0, reg_element_refine/2};
 //+
 Point(5) = {-x_dir, y_dir, -z_dir, reg_element_refine};
 //+
@@ -91,13 +91,13 @@ Curve Loop(6) = {1, -9, -13, -11};
 //+
 Plane Surface(6) = {6};
 //+
-Point(9) = {x_dir, y_dir, dop_thick, reg_element_refine};
+Point(9) = {x_dir, y_dir, dop_thick, pump_refine*3};
 //+
-Point(10) = {x_dir, -y_dir, dop_thick, reg_element_refine};
+Point(10) = {x_dir, -y_dir, dop_thick, pump_refine*3};
 //+
-Point(11) = {-x_dir, -y_dir, dop_thick, reg_element_refine};
+Point(11) = {-x_dir, -y_dir, dop_thick, pump_refine*3};
 //+
-Point(12) = {-x_dir, y_dir, dop_thick, reg_element_refine};
+Point(12) = {-x_dir, y_dir, dop_thick, pump_refine*3};
 //+
 Line(14) = {9, 10};
 //+
@@ -144,6 +144,9 @@ Volume(1) = {2};
 Surface Loop(3) = {6, 11, 8, 7, 10, 9};
 //+
 Volume(2) = {3};
+
+
+
 //+
 Point(13) = {xcen, ycen, 0, pump_refine};
 //+
@@ -193,59 +196,11 @@ Curve Loop(19) = {25, 29, -26};
 //+
 Surface(16) = {19};
 //+
-Point(19) = {xcen, ycen, dop_thick, pump_refine};
-//+
-Point(20) = {xcen, ycen+radius, dop_thick, pump_refine};
-//+
-Point(21) = {xcen, ycen-radius, dop_thick, pump_refine};
-//+
-Point(22) = {xcen+radius, ycen, dop_thick, pump_refine};
-//+
-Point(23) = {xcen-radius, ycen, dop_thick, pump_refine};
-//+
-Circle(30) = {23, 19, 21};
-//+
-Circle(31) = {21, 19, 22};
-//+
-Circle(32) = {22, 19, 20};
-//+
-Circle(33) = {20, 19, 23};
-//+
-Line(34) = {23, 17};
-//+
-Line(35) = {21, 15};
-//+
-Line(36) = {22, 16};
-//+
-Line(37) = {20, 14};
-//+
-Curve Loop(21) = {30, 31, 32, 33};
-//+
-Plane Surface(17) = {21};
-//+
-Curve Loop(22) = {22, -35, -30, 34};
-//+
-Surface(18) = {22};
-//+
-Curve Loop(24) = {35, 23, -36, -31};
-//+
-Surface(19) = {24};
-//+
-Curve Loop(26) = {36, 24, -37, -32};
-//+
-Surface(20) = {26};
-//+
-Curve Loop(28) = {37, -25, -34, -33};
-//+
-Surface(21) = {28};
-//+
 Surface Loop(4) = {12, 13, 14, 15, 16};
 //+
 Volume(3) = {4};
-//+
-Surface Loop(5) = {12, 17, 18, 19, 20, 21};
-//+
-Volume(4) = {5};
+
+
 //+
 Point(24) = {x_left_up, -y_dir, z_left_up, gb_refine};
 //+
@@ -314,5 +269,13 @@ Plane Surface(38) = {49};
 Surface Loop(6) = {33, 34, 35, 36, 37, 38};
 //+
 Volume(6) = {6};
+
+//v() = BooleanUnion{ Volume{3}; Delete;}{ Volume{6}; Delete;};
 //+
+//v1() = BooleanUnion{ Volume{4}; Delete;}{ Volume{7}; Delete;};
+//+
+//v2() = BooleanFragments{ Volume{v()}; Delete;}{ Volume{1}; Delete;};
+//+
+//v3() = BooleanFragments{ Volume{v1()}; Delete;}{ Volume{2}; Delete;};
+
 Coherence;
