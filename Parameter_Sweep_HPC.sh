@@ -98,6 +98,7 @@ for theta_val_num in "${theta_vals_num[@]}"; do
 		sed -i "s/\(z_right_down\s*=\s*\)[0-9.eE+-]\+/\1$zright_down_val/g" "${og_mesh_script}${og_mesh_ext}"
 		
 			
+		
 		# Make new 3D mesh
 		new_mesh_name="${og_mesh_script}_theta_${theta_val_num}_x0_${x0_val_num}.msh"
 		
@@ -108,7 +109,7 @@ for theta_val_num in "${theta_vals_num[@]}"; do
 		sbatch --wait FDTR_Batch_gmsh.sh
 
 		#gmsh "${og_mesh_script}${og_mesh_ext}" -3 -o "$new_mesh_name" -save_all >> gmsh_output.txt 2>&1 &
-		#wait	
+		#wait
 		
 		echo "Mesh Generated, x0 = ${x0_val_num}, theta = ${theta_val_num}"
 	

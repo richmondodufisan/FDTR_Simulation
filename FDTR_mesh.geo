@@ -1,5 +1,5 @@
 // Gmsh project created on Wed Aug 09 07:54:14 2023
-xcen = -4;
+xcen = 4;
 ycen = 0;
 radius = 8;
 dop_thick = 0.09;
