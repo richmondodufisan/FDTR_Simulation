@@ -18,6 +18,6 @@ module use /software/spack_v20d1/spack/share/spack/modules/linux-rhel7-x86_64/
 module load singularity
 module load mpi/mpich-4.0.2-gcc-10.4.0
 
-mpiexec -np ${SLURM_NTASKS} singularity exec -B /projects:/projects -B `pwd`/moose:/opt/moose moose_latest.sif ../purple-opt -i ${script_name}
+mpiexec -np ${SLURM_NTASKS} singularity exec -B /projects:/projects -B /projects/p32089/singularity/moose/moose:/opt/moose /projects/p32089/singularity/moose_latest.sif ../purple-opt -i ${script_name}
 
 
