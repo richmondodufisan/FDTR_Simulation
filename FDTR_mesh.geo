@@ -1,5 +1,5 @@
 // Gmsh project created on Wed Aug 09 07:54:14 2023
-xcen = -4;
+xcen = -5;
 ycen = 0;
 radius = 8;
 dop_thick = 0.09;
@@ -10,7 +10,7 @@ z_dir = 40;
 
 pump_refine = 0.9;
 reg_element_refine = 12;
-gb_refine = 0.7;
+gb_refine = 0.5;
 
 x_left_up = -.2500000000;
 x_right_up = .2500000000;
