@@ -3,9 +3,13 @@
 This directory contains the files needed to run a Frequency Domain Thermoreflectance (FDTR) simulation using the open-source platform MOOSE.
 
 # SOFTWARE REQUIRED:
+
 MOOSE
+
 gmsh (open source meshing software) python API
+
 python
+
 bc (basic calculator available on most Linux distros)
 
 
