@@ -134,8 +134,8 @@ for theta_val_num in "${theta_vals_num[@]}"; do
 			# Replace the mesh in the MOOSE script
 			sed -i "0,/file = [^ ]*/s/file = [^ ]*/file = \"$new_mesh_name\"/" "$new_filename"
 			
-			# Replace the mesh in the Batch script
-			sed -i "0,/script_name=[^ ]*/s/script_name=[^ ]*/script_name=\"$new_filename\"/" "$FDTR_Batch_MOOSE.sh"
+			# Replace the input file in the Batch script
+			sed -i "0,/script_name=[^ ]*/s/script_name=[^ ]*/script_name=\"$new_filename\"/" "FDTR_Batch_MOOSE.sh"
 
 			# Submit job
 			sbatch FDTR_Batch_MOOSE.sh
