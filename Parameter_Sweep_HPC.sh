@@ -104,7 +104,7 @@ for theta_val_num in "${theta_vals_num[@]}"; do
 		new_mesh_name="${og_mesh_script}_theta_${theta_val_num}_x0_${x0_val_num}.msh"
 		sed -i "0,/newMeshName = [^ ]*/s/newMeshName = [^ ]*/newMeshName = \"$new_mesh_name\"/" "${og_mesh_script}${og_mesh_ext}"	
 		
-		echo "$new_mesh_name"
+		#echo "$new_mesh_name"
 		
 		# Make new 3D mesh
 		python3 FDTR_mesh.py >> gmsh_output.txt &

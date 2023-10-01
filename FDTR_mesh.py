@@ -5,9 +5,9 @@ import sys
 gmsh.initialize()
 gmsh.model.add("FDTR_mesh")
 
-newMeshName = "FDTR_mesh_theta_75_x0_15.msh"
+newMeshName = "FDTR_mesh_theta_0_x0_0.msh"
 
-xcen = 15
+xcen = 0
 ycen = 0
 radius = 8
 dop_thick = 0.09
@@ -20,15 +20,15 @@ pump_refine = 0.7
 reg_element_refine = 12
 gb_refine = 0.4
 
-x_left_up = -.9659258255
-x_right_up = .9659258255
+x_left_up = -.2500000000
+x_right_up = .2500000000
 z_left_up = 0;
 z_right_up = 0;
 
-x_left_down = 40.0;
-x_right_down = 40.0;
-z_left_down = -10.97678673734355710863
-z_right_down = -10.45914864778737569137
+x_left_down = -.2500000000;
+x_right_down = .2500000000;
+z_left_down = -40.0
+z_right_down = -40.0
 
 # Adding points for base box/substrate, i.e Silicon sample
 p1 = gmsh.model.occ.addPoint(x_dir, y_dir, 0, reg_element_refine)

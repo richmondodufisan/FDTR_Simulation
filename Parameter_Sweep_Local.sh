@@ -10,11 +10,11 @@ og_mesh_ext=".py"
 
 # Define the range of values you want to loop over
 
-x0_vals_num=("-5" "15")
+x0_vals_num=("0")
 
 freq_vals_num=("1e6")
 
-theta_vals_num=("75")
+theta_vals_num=("0")
 
 #x0_vals_num=("-15" "-10" "-5" "-4" "-3" "-2" "-1" "0" "1" "2" "3" "4" "5" "10" "15")
 
@@ -104,7 +104,7 @@ for theta_val_num in "${theta_vals_num[@]}"; do
 		new_mesh_name="${og_mesh_script}_theta_${theta_val_num}_x0_${x0_val_num}.msh"
 		sed -i "0,/newMeshName = [^ ]*/s/newMeshName = [^ ]*/newMeshName = \"$new_mesh_name\"/" "${og_mesh_script}${og_mesh_ext}"	
 		
-		echo "$new_mesh_name"
+		#echo "$new_mesh_name"
 		
 		# Make new 3D mesh
 		python3 FDTR_mesh.py >> gmsh_output.txt s&
@@ -137,7 +137,7 @@ for theta_val_num in "${theta_vals_num[@]}"; do
 			# Start simulation and wait for it to finish
 			#../purple-opt -i ${new_filename} --mesh-only &
 
-			# ../purple-opt -i ${new_filename} &
+			 ../purple-opt -i ${new_filename} &
 			wait
 		done
 	done
