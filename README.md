@@ -4,14 +4,14 @@ This directory contains the files needed to run a Frequency Domain Thermoreflect
 
 # SOFTWARE REQUIRED:
 
-MOOSE
+MOOSE<br>
 
-gmsh (open source meshing software) python API
+gmsh (open source meshing software) python API<br>
 
-python
+python<br>
 
-bc (basic calculator available on most Linux distros)
+bc (basic calculator available on most Linux distros)<br>
 
 
 
-The simulations are preferably run with "Parameter_Sweep*", the choice of which to run depends on which system you will be running the simulations on
+The simulations are preferably run with "Parameter_Sweep*", the choice of which to run depends on which system you will be running the simulations on.
