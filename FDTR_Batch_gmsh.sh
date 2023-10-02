@@ -4,6 +4,6 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --mem=8GB
-#SBATCH --time=0:05:00
+#SBATCH --time=0:30:00
 
 python3 FDTR_mesh.py >> output.txt

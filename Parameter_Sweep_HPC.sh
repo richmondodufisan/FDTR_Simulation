@@ -45,7 +45,7 @@ for theta_val_num in "${theta_vals_num[@]}"; do
 		gb_width=0.1
 		
 		# refine region 10x the size of the grain boundary to the left and right
-		part_width=$(echo "scale=10; ($gb_width/$cos_theta)*5.0" | bc -l)
+		part_width=$(echo "scale=10; ($gb_width/$cos_theta)*2.5" | bc -l)
 		
 		xleft_up_val=$(echo "scale=10; -($part_width/2.0)" | bc -l)
 		xright_up_val=$(echo "scale=10; ($part_width/2.0)" | bc -l)
