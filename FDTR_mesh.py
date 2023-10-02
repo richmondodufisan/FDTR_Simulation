@@ -294,7 +294,7 @@ gmsh.model.mesh.embed(3, [v7], 3, v5)
 gmsh.model.occ.removeAllDuplicates()
 gmsh.model.occ.synchronize()
 
-# assign mesh size of gb_refine at all points without a mesh size constraint
+# assign mesh size at all points without a mesh size constraint
 p = gmsh.model.occ.getEntities(0)
 s = gmsh.model.mesh.getSizes(p)
 for ps in zip(p, s):
@@ -310,12 +310,12 @@ for ps in zip(p, s):
         # assign small sphere refinement if yes, large sphere refinement otherwise
         if ( checkSphere <= ((radius/4)**2 + 1e-2)):
             gmsh.model.mesh.setSize([ps[0]], dop_thick)
-            print(checkSphere)
-            print("small")
+            #print(checkSphere)
+            #print("small")
         else:
             gmsh.model.mesh.setSize([ps[0]], pump_refine)
-            print(checkSphere)
-            print("large")
+            #print(checkSphere)
+            #print("large")
    
 # Delete extra volume erroneously created by Coherence/removeAllDuplicates()   
 volumes = gmsh.model.occ.getEntities(3)
