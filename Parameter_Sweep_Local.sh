@@ -107,7 +107,7 @@ for theta_val_num in "${theta_vals_num[@]}"; do
 		#echo "$new_mesh_name"
 		
 		# Make new 3D mesh
-		python3 FDTR_mesh.py >> gmsh_output.txt s&
+		python3 FDTR_mesh.py >> gmsh_output.txt &
 		wait
 		
 		# gmsh "${og_mesh_script}${og_mesh_ext}" -3 -o "$new_mesh_name" -save_all >> gmsh_output.txt 2>&1 &
@@ -137,7 +137,7 @@ for theta_val_num in "${theta_vals_num[@]}"; do
 			# Start simulation and wait for it to finish
 			#../purple-opt -i ${new_filename} --mesh-only &
 
-			 ../purple-opt -i ${new_filename} &
+			mpiexec -n 4 ../purple-opt -i ${new_filename} &
 			wait
 		done
 	done

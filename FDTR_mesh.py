@@ -5,9 +5,9 @@ import sys
 gmsh.initialize()
 gmsh.model.add("FDTR_mesh")
 
-newMeshName = "FDTR_mesh_theta_0_x0_-15.msh"
+newMeshName = "FDTR_mesh_theta_0_x0_0.msh"
 
-xcen = -15
+xcen = 0
 ycen = 0
 radius = 8
 dop_thick = 0.09
@@ -18,8 +18,7 @@ z_dir = 40
 
 pump_refine = 0.4
 reg_element_refine = 12
-gb_refine = 0.1
-
+gb_refine = 6
 x_left_up = -.1250000000
 x_right_up = .1250000000
 z_left_up = 0;
@@ -112,10 +111,11 @@ p16 = gmsh.model.occ.addPoint(xcen+radius, ycen, 0, pump_refine)
 p17 = gmsh.model.occ.addPoint(xcen-radius, ycen, 0, pump_refine)
 p18 = gmsh.model.occ.addPoint(xcen, ycen, 0-radius, pump_refine)
 
-# p28 = gmsh.model.occ.addPoint(xcen, ycen+(radius/2), 0, dop_thick)
-# p29 = gmsh.model.occ.addPoint(xcen, ycen-(radius/2), 0, dop_thick)
-# p30 = gmsh.model.occ.addPoint(xcen+(radius/2), ycen, 0, dop_thick)
-# p31 = gmsh.model.occ.addPoint(xcen-(radius/2), ycen, 0, dop_thick)
+# p36 = gmsh.model.occ.addPoint(xcen, ycen+(radius/2), 0, dop_thick)
+# p37 = gmsh.model.occ.addPoint(xcen, ycen-(radius/2), 0, dop_thick)
+# p38 = gmsh.model.occ.addPoint(xcen+(radius/2), ycen, 0, dop_thick)
+# p39 = gmsh.model.occ.addPoint(xcen-(radius/2), ycen, 0, dop_thick)
+# p40 = gmsh.model.occ.addPoint(xcen, ycen, 0-(radius/2), dop_thick)
 
 # Make circle arcs for radial refinement
 c21 = gmsh.model.occ.addCircleArc(p17, p13, p15)
@@ -230,7 +230,7 @@ p = gmsh.model.occ.getEntities(0)
 s = gmsh.model.mesh.getSizes(p)
 for ps in zip(p, s):
     if ps[1] == 0:
-        gmsh.model.mesh.setSize([ps[0]], gb_refine)
+        gmsh.model.mesh.setSize([ps[0]], pump_refine)
    
 # Delete extra volume erroneously created by Coherence/removeAllDuplicates()   
 volumes = gmsh.model.occ.getEntities(3)
@@ -245,4 +245,4 @@ gmsh.model.mesh.generate(3)
 
 gmsh.write(newMeshName)
 
-# gmsh.fltk.run()
+#gmsh.fltk.run()
