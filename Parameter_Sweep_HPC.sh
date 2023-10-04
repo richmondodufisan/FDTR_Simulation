@@ -107,8 +107,8 @@ for theta_val_num in "${theta_vals_num[@]}"; do
 		#echo "$new_mesh_name"
 		
 		# Make new 3D mesh
-		python3 FDTR_mesh.py >> gmsh_output.txt &
-		wait
+		#python3 FDTR_mesh.py >> gmsh_output.txt &
+		#wait
 		
 		# Submit Job
 		# sbatch --wait FDTR_Batch_gmsh.sh
@@ -136,6 +136,12 @@ for theta_val_num in "${theta_vals_num[@]}"; do
 			
 			# Replace the input file in the Batch script
 			sed -i "0,/script_name=[^ ]*/s/script_name=[^ ]*/script_name=\"$new_filename\"/" "FDTR_Batch_MOOSE.sh"
+			
+			freq_noexp=$(python3 -c "import math; print(int($freq_val_num*1e-6))")
+			
+			# Replace the job name
+			sed -E -i "s/(#SBATCH --job-name=)[^[:space:]]+/\1${x0_val_num}${freq_noexp}${theta_val_num}/" "FDTR_Batch_MOOSE.sh"
+
 
 			# Submit job
 			sbatch FDTR_Batch_MOOSE.sh
