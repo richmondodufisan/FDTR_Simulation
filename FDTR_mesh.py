@@ -5,9 +5,9 @@ import sys
 gmsh.initialize()
 gmsh.model.add("FDTR_mesh")
 
-newMeshName = "FDTR_mesh_theta_0_x0_-15.msh"
+newMeshName = "FDTR_mesh_theta_15_x0_15.msh"
 
-xcen = 0
+xcen = 15
 ycen = 0
 radius = 8
 dop_thick = 0.09
@@ -16,16 +16,16 @@ x_dir = 40
 y_dir = 20
 z_dir = 40
 
-pump_refine = 0.9
+pump_refine = 0.4
 reg_element_refine = 10
 gb_refine = 10
-x_left_up = -.1250000000
-x_right_up = .1250000000
+x_left_up = -.1294095225
+x_right_up = .1294095225
 z_left_up = 0;
 z_right_up = 0;
 
-x_left_down = -.1250000000;
-x_right_down = .1250000000;
+x_left_down = 10.5885581815301175;
+x_right_down = 10.8473772264698824;
 z_left_down = -40.0
 z_right_down = -40.0
 
@@ -330,4 +330,4 @@ gmsh.model.mesh.generate(3)
 
 gmsh.write(newMeshName)
 
-gmsh.fltk.run()
+#gmsh.fltk.run()
