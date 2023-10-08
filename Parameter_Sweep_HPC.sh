@@ -14,13 +14,13 @@ og_mesh_ext=".py"
 
 #freq_vals_num=("1e6")
 
-#theta_vals_num=("25" "35" "40" "50" "55" "65" "70" "80" "85")
+#theta_vals_num=("0")
 
-x0_vals_num=("-15" "-10" "-5" "-4" "-3" "-2" "-1" "0" "1" "2" "3" "4" "5" "10" "15")
+x0_vals_num=("-15" "-10" "-8" "-7" "-6" "-5" "-4" "-3" "-2" "-1" "0" "1" "2" "3" "4" "5" "6" "7" "8" "10" "15")
 
 freq_vals_num=("1e6" "2e6" "4e6" "6e6" "10e6")
 
-theta_vals_num=("0" "15" "30" "75")
+theta_vals_num=("0" "75")
 
 
 
@@ -45,7 +45,7 @@ for theta_val_num in "${theta_vals_num[@]}"; do
 		gb_width=0.1
 		
 		# refine region 10x the size of the grain boundary to the left and right
-		part_width=$(echo "scale=10; ($gb_width/$cos_theta)*2.5" | bc -l)
+		part_width=$(echo "scale=10; ($gb_width/$cos_theta)*1" | bc -l)
 		
 		xleft_up_val=$(echo "scale=10; -($part_width/2.0)" | bc -l)
 		xright_up_val=$(echo "scale=10; ($part_width/2.0)" | bc -l)
@@ -107,11 +107,11 @@ for theta_val_num in "${theta_vals_num[@]}"; do
 		#echo "$new_mesh_name"
 		
 		# Make new 3D mesh
-		#python3 FDTR_mesh.py >> gmsh_output.txt &
+		# python3 FDTR_mesh.py >> gmsh_output.txt &
 		#wait
 		
 		# Submit Job
-		# sbatch --wait FDTR_Batch_gmsh.sh
+		#sbatch --wait FDTR_Batch_gmsh.sh
 		
 		echo "Mesh Generated, x0 = ${x0_val_num}, theta = ${theta_val_num}"
 	

@@ -17,17 +17,17 @@ y_dir = 20
 z_dir = 40
 
 pump_refine = 0.4
-reg_element_refine = 10
-gb_refine = 10
-x_left_up = -.4829629127
-x_right_up = .4829629127
+reg_element_refine = 12
+gb_refine = 12
+x_left_up = -.1931851651
+x_right_up = .1931851651
 z_left_up = 0;
 z_right_up = 0;
 
 x_left_down = 40.0;
 x_right_down = 40.0;
-z_left_down = -10.84737721494111429469
-z_right_down = -10.58855817018981850531
+z_left_down = -10.76973150152108454172
+z_right_down = -10.66620388360984825828
 
 # Adding points for base box/substrate, i.e Silicon sample
 p1 = gmsh.model.occ.addPoint(x_dir, y_dir, 0, reg_element_refine)
