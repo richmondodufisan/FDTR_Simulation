@@ -12,8 +12,11 @@ theta_rad = ${fparse (theta_deg/180)*pi}
 
 period = ${fparse 1/freq_val}
 
+n_periods = 2
+n_periods_calc = ${fparse n_periods/2}
+
 dt_val = ${fparse 5.0*(dphase/360.0)*period*tp}
-t_val = ${fparse 2.2*period*tp*15}
+t_val = ${fparse 2.2*period*tp*n_periods_calc}
 
 [Mesh]
   [sample_mesh]

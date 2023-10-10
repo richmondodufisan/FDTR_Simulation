@@ -5,29 +5,83 @@ import sys
 gmsh.initialize()
 gmsh.model.add("FDTR_mesh")
 
-newMeshName = "FDTR_mesh_theta_75_x0_15.msh"
+newMeshName = "FDTR_mesh_theta_75_x0_-15.msh"
 
-xcen = 15
+theta = 75
+xcen = -15
 ycen = 0
 radius = 8
-dop_thick = 0.1
+dop_thick = 0.09
 
 x_dir = 40
 y_dir = 20
 z_dir = 40
+gb_width = 0.1
 
-pump_refine = 0.2
+pump_refine = 2
 reg_element_refine = 12
-gb_refine = 12
-x_left_up = -.1931851651
-x_right_up = .1931851651
-z_left_up = 0;
-z_right_up = 0;
+gb_refine = 1
 
-x_left_down = 40.0;
-x_right_down = 40.0;
-z_left_down = -10.76973150152108454172
-z_right_down = -10.66620388360984825828
+# # Initialize gb refinement values
+# x_left_up = 0
+# x_right_up = 0
+# z_left_up = 0
+# z_right_up = 0
+
+# x_left_down = 0
+# x_right_down = 0
+# z_left_down = 0
+# z_right_down = 0
+
+# ###### Calculation for grain boundary refinement #######
+
+# theta_rad = ((90.0 - theta) * 3.14159265359)/(180)
+# theta_rad_og = (theta * 3.14159265359)/(180)
+# tan_theta = -1.0*math.tan(theta_rad)
+# cos_theta = math.cos(theta_rad_og)
+
+
+# # Refine region ny a multiple of the grainboundary size to the left and right
+# width_refine = 10
+# part_width = (gb_width/cos_theta)*width_refine
+
+# x_left_up = -part_width/2.0
+# x_right_up = part_width/2.0
+
+# # Check for zero angle
+# is_angle_zero = ((-1e-8 <= theta) and (theta <= 1e-8))
+
+# # Get x and z coordinates for LEFT side
+# if (is_angle_zero):
+    # x_left_down = x_left_up
+    # z_left_down = -z_dir
+# else:
+    # x_left_down = (1.0/tan_theta)*(-z_dir + (tan_theta*x_left_up))
+    # z_left_down = -z_dir
+    
+# if (x_left_down >= x_dir):
+    # x_left_down = x_dir
+    # z_left_down = (tan_theta*x_dir)-(tan_theta*x_left_up)
+
+# # Get x and z coordinates for RIGHT side
+# if (is_angle_zero):
+    # x_right_down = x_right_up
+    # z_right_down = -z_dir
+# else:
+    # x_right_down = (1.0/tan_theta)*(-z_dir + (tan_theta*x_right_up))
+    # z_right_down = -z_dir
+    
+# if (x_right_down >= x_dir):
+    # x_right_down = x_dir
+    # z_right_down = (tan_theta*x_dir)-(tan_theta*x_right_up)
+
+# z_left_up = 0
+# z_right_up = 0
+
+# ###### END grain boundary refinement calculations #######
+
+
+
 
 # Adding points for base box/substrate, i.e Silicon sample
 p1 = gmsh.model.occ.addPoint(x_dir, y_dir, 0, reg_element_refine)
@@ -171,7 +225,7 @@ v6 = gmsh.model.occ.addVolume([sloop6])
 
 
 
-# Adding points for grain boundary refinement dummy volume
+# # Adding points for grain boundary refinement dummy volume
 # p19 = gmsh.model.occ.addPoint(x_left_up, -y_dir, z_left_up, gb_refine)
 # p20 = gmsh.model.occ.addPoint(x_right_up, -y_dir, z_right_up, gb_refine)
 # p21 = gmsh.model.occ.addPoint(x_left_up, y_dir, z_left_up, gb_refine)
@@ -181,7 +235,7 @@ v6 = gmsh.model.occ.addVolume([sloop6])
 # p25 = gmsh.model.occ.addPoint(x_left_down, y_dir, z_left_down, gb_refine)
 # p26 = gmsh.model.occ.addPoint(x_right_down, y_dir, z_right_down, gb_refine)
 
-# Adding lines..
+# # Adding lines..
 # c29 = gmsh.model.occ.addLine(p19, p23)
 # c30 = gmsh.model.occ.addLine(p20, p24)
 # c31 = gmsh.model.occ.addLine(p21, p25)
@@ -195,7 +249,7 @@ v6 = gmsh.model.occ.addVolume([sloop6])
 # c39 = gmsh.model.occ.addLine(p23, p24)
 # c40 = gmsh.model.occ.addLine(p25, p26)
 
-# surfaces
+# # surfaces
 # cloop17 = gmsh.model.occ.addCurveLoop([c29, c35, c31, c33])
 # s17 = gmsh.model.occ.addPlaneSurface([cloop17])
 # cloop18 = gmsh.model.occ.addCurveLoop([c30, c36, c32, c34])
@@ -209,7 +263,7 @@ v6 = gmsh.model.occ.addVolume([sloop6])
 # cloop22 = gmsh.model.occ.addCurveLoop([c31, c40, c32, c38])
 # s22 = gmsh.model.occ.addPlaneSurface([cloop22])
 
-# Make grain boundary volume
+# # Make grain boundary volume
 # sloop4 = gmsh.model.occ.addSurfaceLoop([s17, s18, s19, s20, s21])
 # v4 = gmsh.model.occ.addVolume([sloop4])
 
@@ -310,12 +364,8 @@ for ps in zip(p, s):
         # assign small sphere refinement if yes, large sphere refinement otherwise
         if ( checkSphere <= ((radius/4)**2 + 1e-2)):
             gmsh.model.mesh.setSize([ps[0]], dop_thick)
-            #print(checkSphere)
-            #print("small")
         else:
             gmsh.model.mesh.setSize([ps[0]], pump_refine)
-            #print(checkSphere)
-            #print("large")
    
 # Delete extra volume erroneously created by Coherence/removeAllDuplicates()   
 volumes = gmsh.model.occ.getEntities(3)
@@ -326,8 +376,8 @@ gmsh.model.removeEntities([lastVolume], recursive=True)
 gmsh.option.setNumber("Mesh.Algorithm",5)
 
 # Create 3D mesh
-#gmsh.model.mesh.generate(3)
+gmsh.model.mesh.generate(3)
 
-#gmsh.write(newMeshName)
+gmsh.write(newMeshName)
 
-gmsh.fltk.run()
+# gmsh.fltk.run()
