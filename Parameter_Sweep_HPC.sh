@@ -39,8 +39,8 @@ for x0_val_num in "${x0_vals_num[@]}"; do
 		#echo "$new_mesh_name"
 		
 		# Make new 3D mesh
-		python3 FDTR_mesh.py >> gmsh_output.txt &
-		wait
+		#python3 FDTR_mesh.py >> gmsh_output.txt &
+		#wait
 		
 		# Submit Job
 		#sbatch --wait FDTR_Batch_gmsh.sh
@@ -77,7 +77,7 @@ for x0_val_num in "${x0_vals_num[@]}"; do
 
 
 			# Submit job
-			#sbatch FDTR_Batch_MOOSE.sh
+			sbatch FDTR_Batch_MOOSE.sh
 		done
 	done
 done
