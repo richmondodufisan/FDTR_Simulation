@@ -10,13 +10,13 @@ newMeshName = "FDTR_mesh_theta_75_x0_15.msh"
 xcen = 15
 ycen = 0
 radius = 8
-dop_thick = 0.09
+dop_thick = 0.1
 
 x_dir = 40
 y_dir = 20
 z_dir = 40
 
-pump_refine = 0.1
+pump_refine = 0.2
 reg_element_refine = 12
 gb_refine = 12
 x_left_up = -.1931851651
@@ -172,53 +172,53 @@ v6 = gmsh.model.occ.addVolume([sloop6])
 
 
 # Adding points for grain boundary refinement dummy volume
-p19 = gmsh.model.occ.addPoint(x_left_up, -y_dir, z_left_up, gb_refine)
-p20 = gmsh.model.occ.addPoint(x_right_up, -y_dir, z_right_up, gb_refine)
-p21 = gmsh.model.occ.addPoint(x_left_up, y_dir, z_left_up, gb_refine)
-p22 = gmsh.model.occ.addPoint(x_right_up, y_dir, z_right_up, gb_refine)
-p23 = gmsh.model.occ.addPoint(x_left_down, -y_dir, z_left_down, gb_refine)
-p24 = gmsh.model.occ.addPoint(x_right_down, -y_dir, z_right_down, gb_refine)
-p25 = gmsh.model.occ.addPoint(x_left_down, y_dir, z_left_down, gb_refine)
-p26 = gmsh.model.occ.addPoint(x_right_down, y_dir, z_right_down, gb_refine)
+# p19 = gmsh.model.occ.addPoint(x_left_up, -y_dir, z_left_up, gb_refine)
+# p20 = gmsh.model.occ.addPoint(x_right_up, -y_dir, z_right_up, gb_refine)
+# p21 = gmsh.model.occ.addPoint(x_left_up, y_dir, z_left_up, gb_refine)
+# p22 = gmsh.model.occ.addPoint(x_right_up, y_dir, z_right_up, gb_refine)
+# p23 = gmsh.model.occ.addPoint(x_left_down, -y_dir, z_left_down, gb_refine)
+# p24 = gmsh.model.occ.addPoint(x_right_down, -y_dir, z_right_down, gb_refine)
+# p25 = gmsh.model.occ.addPoint(x_left_down, y_dir, z_left_down, gb_refine)
+# p26 = gmsh.model.occ.addPoint(x_right_down, y_dir, z_right_down, gb_refine)
 
 # Adding lines..
-c29 = gmsh.model.occ.addLine(p19, p23)
-c30 = gmsh.model.occ.addLine(p20, p24)
-c31 = gmsh.model.occ.addLine(p21, p25)
-c32 = gmsh.model.occ.addLine(p22, p26)
-c33 = gmsh.model.occ.addLine(p19, p21)
-c34 = gmsh.model.occ.addLine(p22, p20)
-c35 = gmsh.model.occ.addLine(p23, p25)
-c36 = gmsh.model.occ.addLine(p26, p24)
-c37 = gmsh.model.occ.addLine(p19, p20)
-c38 = gmsh.model.occ.addLine(p21, p22)
-c39 = gmsh.model.occ.addLine(p23, p24)
-c40 = gmsh.model.occ.addLine(p25, p26)
+# c29 = gmsh.model.occ.addLine(p19, p23)
+# c30 = gmsh.model.occ.addLine(p20, p24)
+# c31 = gmsh.model.occ.addLine(p21, p25)
+# c32 = gmsh.model.occ.addLine(p22, p26)
+# c33 = gmsh.model.occ.addLine(p19, p21)
+# c34 = gmsh.model.occ.addLine(p22, p20)
+# c35 = gmsh.model.occ.addLine(p23, p25)
+# c36 = gmsh.model.occ.addLine(p26, p24)
+# c37 = gmsh.model.occ.addLine(p19, p20)
+# c38 = gmsh.model.occ.addLine(p21, p22)
+# c39 = gmsh.model.occ.addLine(p23, p24)
+# c40 = gmsh.model.occ.addLine(p25, p26)
 
 # surfaces
-cloop17 = gmsh.model.occ.addCurveLoop([c29, c35, c31, c33])
-s17 = gmsh.model.occ.addPlaneSurface([cloop17])
-cloop18 = gmsh.model.occ.addCurveLoop([c30, c36, c32, c34])
-s18 = gmsh.model.occ.addPlaneSurface([cloop18])
-cloop19 = gmsh.model.occ.addCurveLoop([c37, c33, c38, c34])
-s19 = gmsh.model.occ.addPlaneSurface([cloop19])
-cloop20 = gmsh.model.occ.addCurveLoop([c39, c36, c40, c35])
-s20 = gmsh.model.occ.addPlaneSurface([cloop20])
-cloop21 = gmsh.model.occ.addCurveLoop([c29, c39, c30, c37])
-s21 = gmsh.model.occ.addPlaneSurface([cloop21])
-cloop22 = gmsh.model.occ.addCurveLoop([c31, c40, c32, c38])
-s22 = gmsh.model.occ.addPlaneSurface([cloop22])
+# cloop17 = gmsh.model.occ.addCurveLoop([c29, c35, c31, c33])
+# s17 = gmsh.model.occ.addPlaneSurface([cloop17])
+# cloop18 = gmsh.model.occ.addCurveLoop([c30, c36, c32, c34])
+# s18 = gmsh.model.occ.addPlaneSurface([cloop18])
+# cloop19 = gmsh.model.occ.addCurveLoop([c37, c33, c38, c34])
+# s19 = gmsh.model.occ.addPlaneSurface([cloop19])
+# cloop20 = gmsh.model.occ.addCurveLoop([c39, c36, c40, c35])
+# s20 = gmsh.model.occ.addPlaneSurface([cloop20])
+# cloop21 = gmsh.model.occ.addCurveLoop([c29, c39, c30, c37])
+# s21 = gmsh.model.occ.addPlaneSurface([cloop21])
+# cloop22 = gmsh.model.occ.addCurveLoop([c31, c40, c32, c38])
+# s22 = gmsh.model.occ.addPlaneSurface([cloop22])
 
 # Make grain boundary volume
-sloop4 = gmsh.model.occ.addSurfaceLoop([s17, s18, s19, s20, s21])
-v4 = gmsh.model.occ.addVolume([sloop4])
+# sloop4 = gmsh.model.occ.addSurfaceLoop([s17, s18, s19, s20, s21])
+# v4 = gmsh.model.occ.addVolume([sloop4])
 
 # Adding mesh refinement for pump region in transducer
 p27 = gmsh.model.occ.addPoint(xcen, ycen, dop_thick, dop_thick)
-p28 = gmsh.model.occ.addPoint(xcen, ycen+radius, dop_thick, pump_refine)
-p29 = gmsh.model.occ.addPoint(xcen, ycen-radius, dop_thick, pump_refine)
-p30 = gmsh.model.occ.addPoint(xcen+radius, ycen, dop_thick, pump_refine)
-p31 = gmsh.model.occ.addPoint(xcen-radius, ycen, dop_thick, pump_refine)
+p28 = gmsh.model.occ.addPoint(xcen, ycen+radius, dop_thick, dop_thick)
+p29 = gmsh.model.occ.addPoint(xcen, ycen-radius, dop_thick, dop_thick)
+p30 = gmsh.model.occ.addPoint(xcen+radius, ycen, dop_thick, dop_thick)
+p31 = gmsh.model.occ.addPoint(xcen-radius, ycen, dop_thick, dop_thick)
 
 c41 = gmsh.model.occ.addCircleArc(p31, p27, p29)
 c42 = gmsh.model.occ.addCircleArc(p29, p27, p30)
@@ -326,8 +326,8 @@ gmsh.model.removeEntities([lastVolume], recursive=True)
 gmsh.option.setNumber("Mesh.Algorithm",5)
 
 # Create 3D mesh
-gmsh.model.mesh.generate(3)
+#gmsh.model.mesh.generate(3)
 
-gmsh.write(newMeshName)
+#gmsh.write(newMeshName)
 
-#gmsh.fltk.run()
+gmsh.fltk.run()
