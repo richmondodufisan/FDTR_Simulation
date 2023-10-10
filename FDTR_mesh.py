@@ -82,7 +82,6 @@ gb_refine = 1
 
 
 
-
 # Adding points for base box/substrate, i.e Silicon sample
 p1 = gmsh.model.occ.addPoint(x_dir, y_dir, 0, reg_element_refine)
 p2 = gmsh.model.occ.addPoint(x_dir, -y_dir, 0, reg_element_refine)
