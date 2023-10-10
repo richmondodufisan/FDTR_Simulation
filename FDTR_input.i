@@ -12,11 +12,16 @@ theta_rad = ${fparse (theta_deg/180)*pi}
 
 period = ${fparse 1/freq_val}
 
-n_periods = 2
-n_periods_calc = ${fparse n_periods/2}
+start_period = 0.0
+start_period_calc = ${fparse start_period/2.0}
+start_val = ${fparse 2.2*period*tp*start_period_calc}
 
+end_period = 10.0
+end_period_calc = ${fparse end_period/2.0}
 dt_val = ${fparse 5.0*(dphase/360.0)*period*tp}
-t_val = ${fparse 2.2*period*tp*n_periods_calc}
+t_val = ${fparse 2.2*period*tp*end_period_calc}
+
+
 
 [Mesh]
   [sample_mesh]
@@ -280,7 +285,7 @@ t_val = ${fparse 2.2*period*tp*n_periods_calc}
   dtmin = ${dt_val}
   dtmax= ${dt_val}
   
-  start_time = 0.0
+  start_time = ${start_val}
   end_time = ${t_val}
    
   [TimeStepper]
