@@ -16,7 +16,7 @@ x_dir = 40
 y_dir = 20
 z_dir = 40
 
-pump_refine = 0.4
+pump_refine = 0.1
 reg_element_refine = 12
 gb_refine = 12
 x_left_up = -.1931851651
