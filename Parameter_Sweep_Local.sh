@@ -7,6 +7,7 @@ extension=".i"
 og_mesh_script="FDTR_mesh"
 og_mesh_ext=".py"
 
+final_period=2.0
 
 # Define the range of values you want to loop over
 
@@ -40,18 +41,15 @@ for x0_val_num in "${x0_vals_num[@]}"; do
 		#echo "$new_mesh_name"
 		
 		# Make new 3D mesh
-		# python3 FDTR_mesh.py >> gmsh_output.txt &
-		# wait
-		
-		# gmsh "${og_mesh_script}${og_mesh_ext}" -3 -o "$new_mesh_name" -save_all >> gmsh_output.txt 2>&1 &
-		# wait
+		python3 FDTR_mesh.py >> gmsh_output.txt &
+		wait
 		
 		echo "Mesh Generated, x0 = ${x0_val_num}"
 		
 	for theta_val_num in "${theta_vals_num[@]}"; do
 		for freq_val_num in "${freq_vals_num[@]}"; do
 			# Create a new filename by appending x0_val to the original filename
-			new_filename="${og_filename}_theta_${theta_val_num}_freq_${freq_val_num}_x0_${x0_val_num}.i"
+			new_filename="${og_filename}_theta_${theta_val_num}_freq_${freq_val_num}_x0_${x0_val_num}_v1.i"
 
 			# Copy the original input file to the new filename
 			cp "$og_filename$extension" "$new_filename"
@@ -67,9 +65,14 @@ for x0_val_num in "${x0_vals_num[@]}"; do
 			
 			# Replace the mesh in the MOOSE script
 			sed -i "0,/file = [^ ]*/s/file = [^ ]*/file = \"$new_mesh_name\"/" "$new_filename"
+			
+			# Replace the end period
+			sed -i "s/\(end_period\s*=\s*\)[0-9.eE+-]\+/\1$final_period/g" "$new_filename"
 
 			# Start simulation and wait for it to finish
-			../purple-opt -i ${new_filename} --mesh-only &
+			#../purple-opt -i ${new_filename} --mesh-only &
+			../purple-opt -i ${new_filename} &
+			wait
 
 			# mpiexec -n 4 ../purple-opt -i ${new_filename} &
 			# wait

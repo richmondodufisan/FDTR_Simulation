@@ -5,20 +5,21 @@ import sys
 gmsh.initialize()
 gmsh.model.add("FDTR_mesh")
 
-newMeshName = "FDTR_mesh_x0_15.msh"
+newMeshName = "FDTR_mesh_x0_0.msh"
 
 theta = 75
-xcen = 15
+xcen = 0
 ycen = 0
 radius = 8
 dop_thick = 0.09
+dop_thick_ref = 4
 
 x_dir = 40
 y_dir = 20
 z_dir = 40
 gb_width = 0.1
 
-pump_refine = 0.15
+pump_refine = 4
 reg_element_refine = 12
 gb_refine = 1
 
@@ -157,7 +158,7 @@ sloop2 = gmsh.model.occ.addSurfaceLoop([s6, s11, s8, s7, s10, s9])
 v2 = gmsh.model.occ.addVolume([sloop2])
 
 # Points for radial refinement dummy volume
-p13 = gmsh.model.occ.addPoint(xcen, ycen, 0, dop_thick)
+p13 = gmsh.model.occ.addPoint(xcen, ycen, 0, dop_thick_ref)
 p14 = gmsh.model.occ.addPoint(xcen, ycen+radius, 0, pump_refine)
 p15 = gmsh.model.occ.addPoint(xcen, ycen-radius, 0, pump_refine)
 p16 = gmsh.model.occ.addPoint(xcen+radius, ycen, 0, pump_refine)
@@ -191,11 +192,11 @@ sloop3 = gmsh.model.occ.addSurfaceLoop([s12, s13, s14, s15, s16])
 v3 = gmsh.model.occ.addVolume([sloop3])
 
 ##### ADDITIONAL SUB-SPHERE REFINEMENT DUMMY POINTS #####
-p36 = gmsh.model.occ.addPoint(xcen, ycen+(radius/4), 0, dop_thick)
-p37 = gmsh.model.occ.addPoint(xcen, ycen-(radius/4), 0, dop_thick)
-p38 = gmsh.model.occ.addPoint(xcen+(radius/4), ycen, 0, dop_thick)
-p39 = gmsh.model.occ.addPoint(xcen-(radius/4), ycen, 0, dop_thick)
-p40 = gmsh.model.occ.addPoint(xcen, ycen, 0-(radius/4), dop_thick)
+p36 = gmsh.model.occ.addPoint(xcen, ycen+(radius/4), 0, dop_thick_ref)
+p37 = gmsh.model.occ.addPoint(xcen, ycen-(radius/4), 0, dop_thick_ref)
+p38 = gmsh.model.occ.addPoint(xcen+(radius/4), ycen, 0, dop_thick_ref)
+p39 = gmsh.model.occ.addPoint(xcen-(radius/4), ycen, 0, dop_thick_ref)
+p40 = gmsh.model.occ.addPoint(xcen, ycen, 0-(radius/4), dop_thick_ref)
 
 c49 = gmsh.model.occ.addCircleArc(p39, p13, p37)
 c50 = gmsh.model.occ.addCircleArc(p37, p13, p38)
@@ -267,11 +268,11 @@ v6 = gmsh.model.occ.addVolume([sloop6])
 # v4 = gmsh.model.occ.addVolume([sloop4])
 
 # Adding mesh refinement for pump region in transducer
-p27 = gmsh.model.occ.addPoint(xcen, ycen, dop_thick, dop_thick)
-p28 = gmsh.model.occ.addPoint(xcen, ycen+radius, dop_thick, dop_thick)
-p29 = gmsh.model.occ.addPoint(xcen, ycen-radius, dop_thick, dop_thick)
-p30 = gmsh.model.occ.addPoint(xcen+radius, ycen, dop_thick, dop_thick)
-p31 = gmsh.model.occ.addPoint(xcen-radius, ycen, dop_thick, dop_thick)
+p27 = gmsh.model.occ.addPoint(xcen, ycen, dop_thick, dop_thick_ref)
+p28 = gmsh.model.occ.addPoint(xcen, ycen+radius, dop_thick, dop_thick_ref)
+p29 = gmsh.model.occ.addPoint(xcen, ycen-radius, dop_thick, dop_thick_ref)
+p30 = gmsh.model.occ.addPoint(xcen+radius, ycen, dop_thick, dop_thick_ref)
+p31 = gmsh.model.occ.addPoint(xcen-radius, ycen, dop_thick, dop_thick_ref)
 
 c41 = gmsh.model.occ.addCircleArc(p31, p27, p29)
 c42 = gmsh.model.occ.addCircleArc(p29, p27, p30)
@@ -298,10 +299,10 @@ sloop5 = gmsh.model.occ.addSurfaceLoop([s12, s23, s24, s25, s26])
 v5 = gmsh.model.occ.addVolume([sloop5])
 
 ##### TRANSDUCER DUMMY SUB-VOLUME #####
-p32 = gmsh.model.occ.addPoint(xcen, ycen+(radius/4), dop_thick, dop_thick)
-p33 = gmsh.model.occ.addPoint(xcen, ycen-(radius/4), dop_thick, dop_thick)
-p34 = gmsh.model.occ.addPoint(xcen+(radius/4), ycen, dop_thick, dop_thick)
-p35 = gmsh.model.occ.addPoint(xcen-(radius/4), ycen, dop_thick, dop_thick)
+p32 = gmsh.model.occ.addPoint(xcen, ycen+(radius/4), dop_thick, dop_thick_ref)
+p33 = gmsh.model.occ.addPoint(xcen, ycen-(radius/4), dop_thick, dop_thick_ref)
+p34 = gmsh.model.occ.addPoint(xcen+(radius/4), ycen, dop_thick, dop_thick_ref)
+p35 = gmsh.model.occ.addPoint(xcen-(radius/4), ycen, dop_thick, dop_thick_ref)
 
 c57 = gmsh.model.occ.addCircleArc(p35, p27, p33)
 c58 = gmsh.model.occ.addCircleArc(p33, p27, p34)
@@ -362,7 +363,7 @@ for ps in zip(p, s):
         
         # assign small sphere refinement if yes, large sphere refinement otherwise
         if ( checkSphere <= ((radius/4)**2 + 1e-2)):
-            gmsh.model.mesh.setSize([ps[0]], dop_thick)
+            gmsh.model.mesh.setSize([ps[0]], dop_thick_ref)
         else:
             gmsh.model.mesh.setSize([ps[0]], pump_refine)
    
