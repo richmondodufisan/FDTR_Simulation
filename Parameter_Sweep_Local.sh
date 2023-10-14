@@ -71,11 +71,11 @@ for x0_val_num in "${x0_vals_num[@]}"; do
 
 			# Start simulation and wait for it to finish
 			#../purple-opt -i ${new_filename} --mesh-only &
-			../purple-opt -i ${new_filename} &
-			wait
+			#../purple-opt -i ${new_filename} &
+			#wait
 
-			# mpiexec -n 4 ../purple-opt -i ${new_filename} &
-			# wait
+			mpiexec -n 4 ../purple-opt -i ${new_filename} &
+			wait
 		done
 	done
 done
