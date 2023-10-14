@@ -4,8 +4,21 @@ y0_val = 0
 freq_val = 1e6
 dphase = 0.2
 tp = 1
-
-dop_thick = 0.09
+transducer_thickness = 0.09
+probe_radius = 1.34
+pump_radius = 1.53
+pump_power = 0.01
+pump_absorbance = 1
+room_temperature = 293.15
+gb_width_val = 0.1
+kappa_bulk_si = 130e-6
+kappa_gb_si = 56.52e-6
+rho_si = 2.329e-15
+c_si = 0.6891e3
+au_si_conductance = 3e-5
+kappa_bulk_au = 215e-6
+rho_au = 19.3e-15
+c_au = 0.1287e3
 
 theta_deg = 0
 theta_rad = ${fparse (theta_deg/180)*pi}
@@ -39,25 +52,25 @@ t_val = ${fparse 2.2*period*tp*(end_period/2.0)}
     top_right = '40 20 0'
     bottom_left = '-40 -20 -40'
   []
-  [doping_block]
+  [transducer_block]
     type = SubdomainBoundingBoxGenerator
     input = sample_block
     block_id = 2	
-    top_right = '40 20 ${dop_thick}'
+    top_right = '40 20 ${transducer_thickness}'
     bottom_left = '-40 -20 0'
   []
   
   [rename]
     type = RenameBlockGenerator
     old_block = '1 2'
-    new_block = 'sample_material doping_material'
-    input = doping_block
+    new_block = 'sample_material transducer_material'
+    input = transducer_block
   []
   
   [applied_pump_area]
     type = ParsedGenerateSideset
 	input = rename
-	combinatorial_geometry = '(z > ${dop_thick}-1e-8) & (z < ${dop_thick}+1e-8) & (((x-x0)^2 + (y-y0)^2)< 64)'
+	combinatorial_geometry = '(z > ${transducer_thickness}-1e-8) & (z < ${transducer_thickness}+1e-8) & (((x-x0)^2 + (y-y0)^2)< 64)'
 	constant_names = 'x0 y0'
 	constant_expressions = '${x0_val} ${y0_val}'
 	new_sideset_name = top_pump_area
@@ -66,7 +79,7 @@ t_val = ${fparse 2.2*period*tp*(end_period/2.0)}
   [top_no_pump]
     type = ParsedGenerateSideset
 	input = applied_pump_area
-	combinatorial_geometry = '(z > ${dop_thick}-1e-8) & (z < ${dop_thick}+1e-8) & (((x-x0)^2 + (y-y0)^2) >= 64)'
+	combinatorial_geometry = '(z > ${transducer_thickness}-1e-8) & (z < ${transducer_thickness}+1e-8) & (((x-x0)^2 + (y-y0)^2) >= 64)'
 	constant_names = 'x0 y0'
 	constant_expressions = '${x0_val} ${y0_val}'
 	new_sideset_name = top_no_pump_area
@@ -75,7 +88,7 @@ t_val = ${fparse 2.2*period*tp*(end_period/2.0)}
   [conductance_area]	
     type = SideSetsBetweenSubdomainsGenerator
     input = top_no_pump
-    primary_block = doping_material
+    primary_block = transducer_material
     paired_block = sample_material
     new_boundary = 'boundary_conductance'
   []
@@ -96,11 +109,11 @@ t_val = ${fparse 2.2*period*tp*(end_period/2.0)}
 []
 
 [Variables]
-  [temp_dop]
+  [temp_trans]
     order = FIRST
     family = LAGRANGE
-	block = doping_material
-	initial_from_file_var = temp_dop
+	block = transducer_material
+	initial_from_file_var = temp_trans
     initial_from_file_timestep = ${last_timestep}
   []
   [temp_samp]
@@ -113,11 +126,11 @@ t_val = ${fparse 2.2*period*tp*(end_period/2.0)}
 []
 
 [Kernels]
-  [heat_conduction_doping]
+  [heat_conduction_transducer]
     type = ADHeatConduction
-    variable = temp_dop
-	thermal_conductivity = k_dope
-	block = doping_material
+    variable = temp_trans
+	thermal_conductivity = k_trans
+	block = transducer_material
   []
   [heat_conduction_sample]
     type = ADHeatConduction
@@ -125,12 +138,12 @@ t_val = ${fparse 2.2*period*tp*(end_period/2.0)}
 	thermal_conductivity = k_samp
 	block = sample_material
   []
-  [heat_conduction_time_dep_doping]
+  [heat_conduction_time_dep_transducer]
     type = ADHeatConductionTimeDerivative
-    variable = temp_dop
-	density_name = rho_dope
-	specific_heat = c_dope
-	block = doping_material
+    variable = temp_trans
+	density_name = rho_trans
+	specific_heat = c_trans
+	block = transducer_material
   []
   [heat_conduction_time_dep_sample]
     type = ADHeatConductionTimeDerivative
@@ -144,10 +157,10 @@ t_val = ${fparse 2.2*period*tp*(end_period/2.0)}
 [InterfaceKernels]
   [gap_01]
     type = SideSetHeatTransferKernel
-    variable = temp_dop
+    variable = temp_trans
     neighbor_var = temp_samp
     boundary = 'boundary_conductance'
-	conductance = 3e-5
+	conductance = ${au_si_conductance}
 	
 	Tbulk_mat = 0
 	h_primary = 0
@@ -170,12 +183,12 @@ t_val = ${fparse 2.2*period*tp*(end_period/2.0)}
   [average_surface_temperature]
     type = ParsedAux
     variable = avg_surf_temp
-    coupled_variables = 'temp_dop'
+    coupled_variables = 'temp_trans'
 	constant_names = 'x0 y0 Rprobe T0 pi'
-	constant_expressions = '${x0_val} ${y0_val} 1.34 293.15 3.14159265359'
+	constant_expressions = '${x0_val} ${y0_val} ${probe_radius} ${room_temperature} 3.14159265359'
 	use_xyzt = true
-	expression = '((temp_dop-T0)/(pi*(Rprobe^2)))*exp((-((x-x0)^2+(y-y0)^2))/(Rprobe^2))'
-	block = doping_material
+	expression = '((temp_trans-T0)/(pi*(Rprobe^2)))*exp((-((x-x0)^2+(y-y0)^2))/(Rprobe^2))'
+	block = transducer_material
   []
   [visualize_gb]
     type = ADMaterialRealAux
@@ -198,28 +211,28 @@ t_val = ${fparse 2.2*period*tp*(end_period/2.0)}
     type = ADParsedFunction
     expression = '((((Q0*absorbance)/(pi*(Rpump^2)))*exp((-((x-x0)^2+(y-y0)^2))/(Rpump^2)))*0.5*(1-cos((2*pi*freq*t))))'
     symbol_names = 'x0 y0 Rpump Q0 absorbance freq'
-    symbol_values = '${x0_val} ${y0_val} 1.53 0.01 1 ${freq_val}'
+    symbol_values = '${x0_val} ${y0_val} ${pump_radius} ${pump_power} ${pump_absorbance} ${freq_val}'
   []
   [grain_boundary_function]
     type = ADParsedFunction
 	expression = 'if ( (x<((-gb_width/(2*cos(theta)))+(abs(z)*tan(theta)))) | (x>((gb_width/(2*cos(theta)))+(abs(z)*tan(theta)))), k_bulk, k_gb)'
 	symbol_names = 'gb_width theta k_bulk k_gb'
-	symbol_values = '0.1 ${theta_rad} 130e-6 56.52e-6'
+	symbol_values = '${gb_width_val} ${theta_rad} ${kappa_bulk_si} ${kappa_gb_si}'
   []
 []
 
 [Materials]
-  [basic_doping_materials]
+  [basic_transducer_materials]
     type = ADGenericConstantMaterial
-    block = doping_material
-    prop_names = 'rho_dope c_dope k_dope'
-    prop_values = '19.3e-15 0.1287e3 215e-6'
+    block = transducer_material
+    prop_names = 'rho_trans c_trans k_trans'
+    prop_values = '${rho_au} ${c_au} ${kappa_bulk_au}'
   []
   [basic_sample_materials]
     type = ADGenericConstantMaterial
     block = sample_material
     prop_names = 'rho_samp c_samp'
-    prop_values = '2.329e-15 0.6891e3'
+    prop_values = '${rho_si} ${c_si}'
   []
   [thermal_conductivity_sample]
     type = ADGenericFunctionMaterial
@@ -239,11 +252,11 @@ t_val = ${fparse 2.2*period*tp*(end_period/2.0)}
     type = DirichletBC
     variable = temp_samp
     boundary = 'bottom_surface'
-    value = 293.15
+    value = ${room_temperature}
   []
   [heat_source_term]
     type = FunctionNeumannBC
-	variable = temp_dop
+	variable = temp_trans
 	boundary = 'top_pump_area top_no_pump_area'
 	function = heat_source_function
   []

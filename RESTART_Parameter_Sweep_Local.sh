@@ -7,14 +7,14 @@ init_filename="FDTR_input"
 og_filename="FDTR_input_restart"
 extension=".i"
 
-former_sim_ver="v1"
-new_sim_ver="v2"
+former_sim_ver="v2"
+new_sim_ver="v3"
 
-old_start=0.0
-old_end=2.0
+old_start=2.0
+old_end=4.0
 
-new_start=2.0
-new_end=4.0
+new_start=4.0
+new_end=6.0
 
 
 # Define the range of values you want to loop over

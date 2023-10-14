@@ -1,6 +1,6 @@
 #!/bin/bash
 
-versions_list=("v1" "v2")
+versions_list=("v1" "v2" "v3")
 
 theta_angle=0
 n_periods=2

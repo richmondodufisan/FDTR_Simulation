@@ -4,11 +4,11 @@
 #SBATCH --ntasks=52 ## how many cpus or processors do you need on each computer
 #SBATCH --time=4:00:00 ## how long does this need to run (remember different partitions have restrictions on this param)
 #SBATCH --mem-per-cpu=3G ## how much RAM do you need per CPU (this effects your FairShare score so be careful to not ask for more than you need))
-#SBATCH --job-name=15100  ## When you run squeue -u NETID this is how you can identify the job
+#SBATCH --job-name=010  ## When you run squeue -u NETID this is how you can identify the job
 #SBATCH --constraint="[quest10|quest11]"
 
 
-script_name="FDTR_input_theta_0_freq_10e6_x0_15.i"
+script_name="FDTR_input_theta_0_freq_1e6_x0_0_v1.i"
 
 #moose_exec.sh ../purple-opt -i ${script_name} --mesh-only
 #moose_exec.sh ../purple-opt -i ${script_name}
