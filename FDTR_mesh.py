@@ -12,6 +12,7 @@ xcen = -2
 ycen = 0
 radius = 8
 trans_thick = 0.09
+
 trans_thick_ref = 0.09
 
 x_dir = 40
@@ -19,7 +20,7 @@ y_dir = 20
 z_dir = 40
 gb_width = 0.1
 
-pump_refine = 0.3
+pump_refine = 1.5
 reg_element_refine = 12
 gb_refine = 12
 
@@ -192,11 +193,11 @@ sloop3 = gmsh.model.occ.addSurfaceLoop([s12, s13, s14, s15, s16])
 v3 = gmsh.model.occ.addVolume([sloop3])
 
 ##### ADDITIONAL SUB-SPHERE REFINEMENT DUMMY POINTS #####
-p36 = gmsh.model.occ.addPoint(xcen, ycen+(radius/4), 0, trans_thick_ref)
-p37 = gmsh.model.occ.addPoint(xcen, ycen-(radius/4), 0, trans_thick_ref)
-p38 = gmsh.model.occ.addPoint(xcen+(radius/4), ycen, 0, trans_thick_ref)
-p39 = gmsh.model.occ.addPoint(xcen-(radius/4), ycen, 0, trans_thick_ref)
-p40 = gmsh.model.occ.addPoint(xcen, ycen, 0-(radius/4), trans_thick_ref)
+p36 = gmsh.model.occ.addPoint(xcen, ycen+(radius/3), 0, trans_thick_ref)
+p37 = gmsh.model.occ.addPoint(xcen, ycen-(radius/3), 0, trans_thick_ref)
+p38 = gmsh.model.occ.addPoint(xcen+(radius/3), ycen, 0, trans_thick_ref)
+p39 = gmsh.model.occ.addPoint(xcen-(radius/3), ycen, 0, trans_thick_ref)
+p40 = gmsh.model.occ.addPoint(xcen, ycen, 0-(radius/3), trans_thick_ref)
 
 c49 = gmsh.model.occ.addCircleArc(p39, p13, p37)
 c50 = gmsh.model.occ.addCircleArc(p37, p13, p38)
@@ -299,10 +300,10 @@ sloop5 = gmsh.model.occ.addSurfaceLoop([s12, s23, s24, s25, s26])
 v5 = gmsh.model.occ.addVolume([sloop5])
 
 ##### TRANSDUCER DUMMY SUB-VOLUME #####
-p32 = gmsh.model.occ.addPoint(xcen, ycen+(radius/4), trans_thick, trans_thick_ref)
-p33 = gmsh.model.occ.addPoint(xcen, ycen-(radius/4), trans_thick, trans_thick_ref)
-p34 = gmsh.model.occ.addPoint(xcen+(radius/4), ycen, trans_thick, trans_thick_ref)
-p35 = gmsh.model.occ.addPoint(xcen-(radius/4), ycen, trans_thick, trans_thick_ref)
+p32 = gmsh.model.occ.addPoint(xcen, ycen+(radius/3), trans_thick, trans_thick_ref)
+p33 = gmsh.model.occ.addPoint(xcen, ycen-(radius/3), trans_thick, trans_thick_ref)
+p34 = gmsh.model.occ.addPoint(xcen+(radius/3), ycen, trans_thick, trans_thick_ref)
+p35 = gmsh.model.occ.addPoint(xcen-(radius/3), ycen, trans_thick, trans_thick_ref)
 
 c57 = gmsh.model.occ.addCircleArc(p35, p27, p33)
 c58 = gmsh.model.occ.addCircleArc(p33, p27, p34)
