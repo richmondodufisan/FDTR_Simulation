@@ -26,10 +26,10 @@ theta_rad = ${fparse (theta_deg/180)*pi}
 period = ${fparse 1/freq_val}
 dt_val = ${fparse 5.0*(dphase/360.0)*period*tp}
 
-prev_start = 0.0
-prev_start_val = ${fparse 2.2*period*tp*(prev_start/2.0)}
-prev_end = 0.0
-prev_end_val = ${fparse 2.2*period*tp*(prev_end/2.0)}
+#prev_start = 0.0
+#prev_start_val = ${fparse 2.2*period*tp*(prev_start/2.0)}
+#prev_end = 0.0
+#prev_end_val = ${fparse 2.2*period*tp*(prev_end/2.0)}
 
 # hard coded because of issues converting float to int
 last_timestep = 792
