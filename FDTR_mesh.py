@@ -5,15 +5,16 @@ import sys
 gmsh.initialize()
 gmsh.model.add("FDTR_mesh")
 
-newMeshName = "FDTR_mesh_x0_-2.msh"
+newMeshName = "FDTR_mesh_x0_0.msh"
 
 theta = 75
-xcen = -2
+xcen = 0
 ycen = 0
 radius = 8
 trans_thick = 0.09
 
-trans_thick_ref = 0.09
+dummy_factor = 3
+trans_thick_ref = 0.15
 
 x_dir = 40
 y_dir = 20
@@ -89,10 +90,10 @@ p1 = gmsh.model.occ.addPoint(x_dir, y_dir, 0, reg_element_refine)
 p2 = gmsh.model.occ.addPoint(x_dir, -y_dir, 0, reg_element_refine)
 p3 = gmsh.model.occ.addPoint(-x_dir, -y_dir, 0, reg_element_refine)
 p4 = gmsh.model.occ.addPoint(-x_dir, y_dir, 0, reg_element_refine)
-p5 = gmsh.model.occ.addPoint(-x_dir, y_dir, -z_dir, reg_element_refine/2)
-p6 = gmsh.model.occ.addPoint(-x_dir, -y_dir, -z_dir, reg_element_refine/2)
-p7 = gmsh.model.occ.addPoint(x_dir, -y_dir, -z_dir, reg_element_refine/2)
-p8 = gmsh.model.occ.addPoint(x_dir, y_dir, -z_dir, reg_element_refine/2)
+p5 = gmsh.model.occ.addPoint(-x_dir, y_dir, -z_dir, reg_element_refine)
+p6 = gmsh.model.occ.addPoint(-x_dir, -y_dir, -z_dir, reg_element_refine)
+p7 = gmsh.model.occ.addPoint(x_dir, -y_dir, -z_dir, reg_element_refine)
+p8 = gmsh.model.occ.addPoint(x_dir, y_dir, -z_dir, reg_element_refine)
 
 # Adding lines for base box
 c1 = gmsh.model.occ.addLine(p3, p2)
@@ -193,11 +194,11 @@ sloop3 = gmsh.model.occ.addSurfaceLoop([s12, s13, s14, s15, s16])
 v3 = gmsh.model.occ.addVolume([sloop3])
 
 ##### ADDITIONAL SUB-SPHERE REFINEMENT DUMMY POINTS #####
-p36 = gmsh.model.occ.addPoint(xcen, ycen+(radius/3), 0, trans_thick_ref)
-p37 = gmsh.model.occ.addPoint(xcen, ycen-(radius/3), 0, trans_thick_ref)
-p38 = gmsh.model.occ.addPoint(xcen+(radius/3), ycen, 0, trans_thick_ref)
-p39 = gmsh.model.occ.addPoint(xcen-(radius/3), ycen, 0, trans_thick_ref)
-p40 = gmsh.model.occ.addPoint(xcen, ycen, 0-(radius/3), trans_thick_ref)
+p36 = gmsh.model.occ.addPoint(xcen, ycen+(radius/dummy_factor), 0, trans_thick_ref)
+p37 = gmsh.model.occ.addPoint(xcen, ycen-(radius/dummy_factor), 0, trans_thick_ref)
+p38 = gmsh.model.occ.addPoint(xcen+(radius/dummy_factor), ycen, 0, trans_thick_ref)
+p39 = gmsh.model.occ.addPoint(xcen-(radius/dummy_factor), ycen, 0, trans_thick_ref)
+p40 = gmsh.model.occ.addPoint(xcen, ycen, 0-(radius/dummy_factor), trans_thick_ref)
 
 c49 = gmsh.model.occ.addCircleArc(p39, p13, p37)
 c50 = gmsh.model.occ.addCircleArc(p37, p13, p38)
@@ -300,10 +301,10 @@ sloop5 = gmsh.model.occ.addSurfaceLoop([s12, s23, s24, s25, s26])
 v5 = gmsh.model.occ.addVolume([sloop5])
 
 ##### TRANSDUCER DUMMY SUB-VOLUME #####
-p32 = gmsh.model.occ.addPoint(xcen, ycen+(radius/3), trans_thick, trans_thick_ref)
-p33 = gmsh.model.occ.addPoint(xcen, ycen-(radius/3), trans_thick, trans_thick_ref)
-p34 = gmsh.model.occ.addPoint(xcen+(radius/3), ycen, trans_thick, trans_thick_ref)
-p35 = gmsh.model.occ.addPoint(xcen-(radius/3), ycen, trans_thick, trans_thick_ref)
+p32 = gmsh.model.occ.addPoint(xcen, ycen+(radius/dummy_factor), trans_thick, trans_thick_ref)
+p33 = gmsh.model.occ.addPoint(xcen, ycen-(radius/dummy_factor), trans_thick, trans_thick_ref)
+p34 = gmsh.model.occ.addPoint(xcen+(radius/dummy_factor), ycen, trans_thick, trans_thick_ref)
+p35 = gmsh.model.occ.addPoint(xcen-(radius/dummy_factor), ycen, trans_thick, trans_thick_ref)
 
 c57 = gmsh.model.occ.addCircleArc(p35, p27, p33)
 c58 = gmsh.model.occ.addCircleArc(p33, p27, p34)
@@ -363,7 +364,7 @@ for ps in zip(p, s):
         # print(checkSphere)
         
         # assign small sphere refinement if yes, large sphere refinement otherwise
-        if ( checkSphere <= ((radius/4)**2 + 1e-2)):
+        if ( checkSphere <= ((radius/dummy_factor)**2 + 1e-2)):
             gmsh.model.mesh.setSize([ps[0]], trans_thick_ref)
         else:
             gmsh.model.mesh.setSize([ps[0]], pump_refine)
