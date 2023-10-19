@@ -9,7 +9,7 @@ stop_line_number=$(python3 -c "import math; print((396*$n_periods)+1)")
 echo $stop_line_number
 
 # Output file
-output_file="../MOOSE_theta_${theta_angle}_T2.csv"
+output_file="../MOOSE_theta_${theta_angle}_T2_new.csv"
 
 # Create header for the output file
 echo "freq, x0, time, delta_temp" > "$output_file"
