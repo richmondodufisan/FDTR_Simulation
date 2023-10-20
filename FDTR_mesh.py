@@ -14,14 +14,14 @@ radius = 8
 trans_thick = 0.09
 
 dummy_factor = 3
-trans_thick_ref = 0.125
+trans_thick_ref = 0.12
 
 x_dir = 40
 y_dir = 20
 z_dir = 40
 gb_width = 0.1
 
-pump_refine = 0.7
+pump_refine = 0.5
 reg_element_refine = 4
 gb_refine = 12
 
@@ -271,10 +271,10 @@ v6 = gmsh.model.occ.addVolume([sloop6])
 
 # Adding mesh refinement for pump region in transducer
 p27 = gmsh.model.occ.addPoint(xcen, ycen, trans_thick, trans_thick_ref)
-p28 = gmsh.model.occ.addPoint(xcen, ycen+radius, trans_thick, trans_thick_ref)
-p29 = gmsh.model.occ.addPoint(xcen, ycen-radius, trans_thick, trans_thick_ref)
-p30 = gmsh.model.occ.addPoint(xcen+radius, ycen, trans_thick, trans_thick_ref)
-p31 = gmsh.model.occ.addPoint(xcen-radius, ycen, trans_thick, trans_thick_ref)
+p28 = gmsh.model.occ.addPoint(xcen, ycen+radius, trans_thick, pump_refine)
+p29 = gmsh.model.occ.addPoint(xcen, ycen-radius, trans_thick, pump_refine)
+p30 = gmsh.model.occ.addPoint(xcen+radius, ycen, trans_thick, pump_refine)
+p31 = gmsh.model.occ.addPoint(xcen-radius, ycen, trans_thick, pump_refine)
 
 c41 = gmsh.model.occ.addCircleArc(p31, p27, p29)
 c42 = gmsh.model.occ.addCircleArc(p29, p27, p30)
