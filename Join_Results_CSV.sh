@@ -1,8 +1,8 @@
 #!/bin/bash
 
-versions_list=("v1" "v2")
+versions_list=("v1")
 
-theta_angle=0
+theta_angle=75
 n_periods=2
 stop_line_number=$(python3 -c "import math; print((396*$n_periods)+1)")
 
