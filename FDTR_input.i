@@ -245,7 +245,7 @@ t_val = ${fparse 2.2*period*tp*(end_period/2.0)}
   [heat_source_term]
     type = FunctionNeumannBC
 	variable = temp_trans
-	boundary = 'top_pump_area top_no_pump_area'
+	boundary = 'top_pump_area'
 	function = heat_source_function
   []
 []

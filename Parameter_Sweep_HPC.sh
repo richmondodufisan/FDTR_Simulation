@@ -11,9 +11,9 @@ final_period=2.0
 
 # Define the range of values you want to loop over
 
-#x0_vals_num=("0")
+#x0_vals_num=("-15")
 
-#freq_vals_num=("1e6")
+#freq_vals_num=("4e6")
 
 #theta_vals_num=("0")
 
@@ -21,7 +21,7 @@ x0_vals_num=("-15" "-10" "-9" "-8" "-7" "-6" "-5" "-4" "-3" "-2" "-1" "0" "1" "2
 
 freq_vals_num=("1e6" "2e6" "4e6" "6e6" "10e6")
 
-theta_vals_num=("0")
+theta_vals_num=("0" "75")
 
 
 # Loop over values
