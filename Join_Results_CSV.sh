@@ -1,6 +1,6 @@
 #!/bin/bash
 
-versions_list=("v1")
+n_iterations=5
 
 theta_angle=0
 n_periods=1
@@ -28,8 +28,10 @@ freq_vals_num=("1e6" "2e6" "4e6" "6e6" "10e6")
 
 for x0 in "${x0_vals_num[@]}"; do
 	for freq in "${freq_vals_num[@]}"; do
-		for ver in "${versions_list[@]}"; do
-			input_file="FDTR_input_theta_${theta_angle}_freq_${freq}_x0_${x0}_${ver}_out.csv"
+	
+		current_iteration=1
+		while [ $current_iteration -lt $n_iterations ]; do
+			input_file="FDTR_input_theta_${theta_angle}_freq_${freq}_x0_${x0}_v${current_iteration}_out.csv"
 			
 			# Concatenate data to the output file using printf in awk, stopping at the specified line
 			awk -v freq="$freq" -v x0="$x0" -v stop_line="$stop_line_number" -F, 'NR>2{
@@ -37,6 +39,8 @@ for x0 in "${x0_vals_num[@]}"; do
 					printf "%s, %s, %.20f, %.20f\n", x0, freq / 1e6, $1 * 1e6, $2
 				}
 			}' "$input_file" >> "$output_file"
+			
+			current_iteration=$((current_iteration + 1))
 		done
 	done
 done
