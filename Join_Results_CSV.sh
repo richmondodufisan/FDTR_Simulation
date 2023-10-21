@@ -2,7 +2,7 @@
 
 versions_list=("v1")
 
-theta_angle=75
+theta_angle=0
 n_periods=2
 stop_line_number=$(python3 -c "import math; print((396*$n_periods)+1)")
 

@@ -7,7 +7,7 @@ extension=".i"
 og_mesh_script="FDTR_mesh"
 og_mesh_ext=".py"
 
-final_period=2.0
+final_period=1.0
 
 # Define the range of values you want to loop over
 
