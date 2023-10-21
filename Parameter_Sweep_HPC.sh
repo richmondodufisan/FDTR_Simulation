@@ -7,21 +7,21 @@ extension=".i"
 og_mesh_script="FDTR_mesh"
 og_mesh_ext=".py"
 
-final_period=2.0
+final_period=1.0
 
 # Define the range of values you want to loop over
 
-x0_vals_num=("0")
+#x0_vals_num=("0")
 
-freq_vals_num=("4e6")
+#freq_vals_num=("4e6")
+
+#theta_vals_num=("0" "75")
+
+x0_vals_num=("-15" "-10" "-9" "-8" "-7" "-6" "-5" "-4" "-3" "-2" "-1" "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" "10" "15")
+
+freq_vals_num=("1e6" "2e6" "4e6" "6e6" "10e6")
 
 theta_vals_num=("0" "75")
-
-# x0_vals_num=("-15" "-10" "-9" "-8" "-7" "-6" "-5" "-4" "-3" "-2" "-1" "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" "10" "15")
-
-# freq_vals_num=("1e6" "2e6" "4e6" "6e6" "10e6")
-
-# theta_vals_num=("0" "75")
 
 
 # Loop over values
@@ -80,7 +80,7 @@ for x0_val_num in "${x0_vals_num[@]}"; do
 			sed -E -i "s/(#SBATCH --job-name=)[^[:space:]]+/\1${x0_val_num}${freq_noexp}${theta_val_num}/" "FDTR_Batch_MOOSE.sh"
 
 			# Submit job
-			# sbatch FDTR_Batch_MOOSE.sh
+			sbatch FDTR_Batch_MOOSE.sh
 		done
 	done
 done
