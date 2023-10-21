@@ -82,7 +82,7 @@ for x0_val_num in "${x0_vals_num[@]}"; do
 
 			# Submit job
 			sbatch $new_batch_script
-			
+			sleep 10			
 		done
 	done
 done

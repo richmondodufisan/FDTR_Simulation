@@ -9,6 +9,12 @@
 
 script_name="FDTR_input_theta_0_freq_1e6_x0_-15_v1.i"
 
+# Generate a random sleep duration between 1 and 1000 seconds
+sleep_duration=$((1 + RANDOM % 1000))
+
+# Sleep for the randomly generated duration
+sleep $sleep_duration
+
 mpiexec -np ${SLURM_NTASKS} singularity exec -B /projects:/projects -B /projects/p32089/singularity/moose/moose:/opt/moose /projects/p32089/singularity/moose_latest.sif ../purple-opt -i ${script_name}
 
 

@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # Load mpiexec library ONCE
-module purge
 module use /software/spack_v20d1/spack/share/spack/modules/linux-rhel7-x86_64/
 module load singularity
 module load mpi/mpich-4.0.2-gcc-10.4.0
@@ -91,7 +90,7 @@ for x0_val_num in "${x0_vals_num[@]}"; do
 
 			# Submit job
 			sbatch $new_batch_script
-
+			sleep 10
 		done
 	done
 done
