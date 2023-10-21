@@ -12,7 +12,7 @@ function check_squeue() {
 
 
 # Set the maximum number of times to submit the batch job
-n_iterations=5
+n_iterations=2
 
 # Set the number of periods each job/sweep should solve for
 n_periods_per_job=1.0
@@ -24,7 +24,7 @@ start_val=0.0
 sed -i "s/\(final_period\s*=\s*\)[0-9.eE+-]\+/\1$n_periods_per_job/g" "Parameter_Sweep_HPC.sh"
 
 # Submit the initial parameter sweep
-#./Parameter_Sweep_HPC.sh
+./Parameter_Sweep_HPC.sh
 
 submission_count=1
 o_start=$start_val
