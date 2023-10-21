@@ -66,19 +66,22 @@ for x0_val_num in "${x0_vals_num[@]}"; do
 			
 			############# END Replacing end and start periods #############
 			
+			# Copy and create a new batch script
+			new_batch_script="FDTR_Batch_MOOSE_theta_${theta_val_num}_freq_${freq_val_num}_x0_${x0_val_num}_${new_sim_ver}.sh"
+			cp "$FDTR_Batch_MOOSE.sh" "$new_batch_script"
+			
 			
 			# Replace the input file in the Batch script
-			sed -i "0,/script_name=[^ ]*/s/script_name=[^ ]*/script_name=\"$new_filename\"/" "FDTR_Batch_MOOSE.sh"
+			sed -i "0,/script_name=[^ ]*/s/script_name=[^ ]*/script_name=\"$new_filename\"/" "$new_batch_script"
 			
 			freq_noexp=$(python3 -c "import math; print(int($freq_val_num*1e-6))")
 			
 			# Replace the job name
-			sed -E -i "s/(#SBATCH --job-name=)[^[:space:]]+/\1${x0_val_num}${freq_noexp}${theta_val_num}/" "FDTR_Batch_MOOSE.sh"
+			sed -E -i "s/(#SBATCH --job-name=)[^[:space:]]+/\1${x0_val_num}${freq_noexp}${theta_val_num}/" "$new_batch_script"
 
 
 			# Submit job
-			sbatch FDTR_Batch_MOOSE.sh
-			sleep 300
+			sbatch $new_batch_script
 
 		done
 	done
