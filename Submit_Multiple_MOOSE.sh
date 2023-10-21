@@ -2,7 +2,7 @@
 
 # Function to check if there are any jobs in the Slurm queue
 function check_squeue() {
-    squeue_output=$(squeue -u your_username)  # Replace with your actual username
+    squeue_output=$(squeue -u vtw1026)  # Replace with your actual username
     if [ -z "$squeue_output" ]; then
         return 0  # No jobs in the queue
     else
@@ -24,7 +24,7 @@ start_val=0.0
 sed -i "s/\(final_period\s*=\s*\)[0-9.eE+-]\+/\1$n_periods_per_job/g" "Parameter_Sweep_HPC.sh"
 
 # Submit the initial parameter sweep
-./Parameter_Sweep_HPC.sh
+#./Parameter_Sweep_HPC.sh
 
 submission_count=1
 o_start=$start_val
