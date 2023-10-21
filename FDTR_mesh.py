@@ -5,83 +5,83 @@ import sys
 gmsh.initialize()
 gmsh.model.add("FDTR_mesh")
 
-newMeshName = "FDTR_mesh_x0_-15.msh"
+newMeshName = "FDTR_mesh_x0_0_theta_75.msh"
 
 theta = 75
-xcen = -15
+xcen = 0
 ycen = 0
 radius = 8
 trans_thick = 0.09
 
-dummy_factor = 2.5
-trans_thick_ref = 0.045
+dummy_factor = 3
+trans_thick_ref = 0.09
 
 x_dir = 40
 y_dir = 20
 z_dir = 40
 gb_width = 0.1
 
-pump_refine = 0.2
+pump_refine = 0.6
 reg_element_refine = 4
-gb_refine = 12
+gb_refine = 0.9
 
-# # Initialize gb refinement values
-# x_left_up = 0
-# x_right_up = 0
-# z_left_up = 0
-# z_right_up = 0
+# Initialize gb refinement values
+x_left_up = 0
+x_right_up = 0
+z_left_up = 0
+z_right_up = 0
 
-# x_left_down = 0
-# x_right_down = 0
-# z_left_down = 0
-# z_right_down = 0
+x_left_down = 0
+x_right_down = 0
+z_left_down = 0
+z_right_down = 0
 
-# ###### Calculation for grain boundary refinement #######
+###### Calculation for grain boundary refinement #######
 
-# theta_rad = ((90.0 - theta) * 3.14159265359)/(180)
-# theta_rad_og = (theta * 3.14159265359)/(180)
-# tan_theta = -1.0*math.tan(theta_rad)
-# cos_theta = math.cos(theta_rad_og)
+theta_rad = ((90.0 - theta) * 3.14159265359)/(180)
+theta_rad_og = (theta * 3.14159265359)/(180)
+tan_theta = -1.0*math.tan(theta_rad)
+cos_theta = math.cos(theta_rad_og)
 
 
-# # Refine region ny a multiple of the grainboundary size to the left and right
-# width_refine = 10
-# part_width = (gb_width/cos_theta)*width_refine
+# Refine region ny a multiple of the grain boundary size to the left and right
+width_refine = 10
+part_width = (gb_width/cos_theta)*width_refine
 
-# x_left_up = -part_width/2.0
-# x_right_up = part_width/2.0
+x_left_up = -part_width/2.0
+x_right_up = part_width/2.0
 
-# # Check for zero angle
-# is_angle_zero = ((-1e-8 <= theta) and (theta <= 1e-8))
+# Check for zero angle
+is_angle_zero = ((-1e-8 <= theta) and (theta <= 1e-8))
 
-# # Get x and z coordinates for LEFT side
-# if (is_angle_zero):
-    # x_left_down = x_left_up
-    # z_left_down = -z_dir
-# else:
-    # x_left_down = (1.0/tan_theta)*(-z_dir + (tan_theta*x_left_up))
-    # z_left_down = -z_dir
+# Get x and z coordinates for LEFT side
+if (is_angle_zero):
+    x_left_down = x_left_up
+    z_left_down = -z_dir
+else:
+    x_left_down = (1.0/tan_theta)*(-z_dir + (tan_theta*x_left_up))
+    z_left_down = -z_dir
     
-# if (x_left_down >= x_dir):
-    # x_left_down = x_dir
-    # z_left_down = (tan_theta*x_dir)-(tan_theta*x_left_up)
+if (x_left_down >= x_dir):
+    x_left_down = x_dir
+    z_left_down = (tan_theta*x_dir)-(tan_theta*x_left_up)
 
-# # Get x and z coordinates for RIGHT side
-# if (is_angle_zero):
-    # x_right_down = x_right_up
-    # z_right_down = -z_dir
-# else:
-    # x_right_down = (1.0/tan_theta)*(-z_dir + (tan_theta*x_right_up))
-    # z_right_down = -z_dir
+# Get x and z coordinates for RIGHT side
+if (is_angle_zero):
+    x_right_down = x_right_up
+    z_right_down = -z_dir
+else:
+    x_right_down = (1.0/tan_theta)*(-z_dir + (tan_theta*x_right_up))
+    z_right_down = -z_dir
     
-# if (x_right_down >= x_dir):
-    # x_right_down = x_dir
-    # z_right_down = (tan_theta*x_dir)-(tan_theta*x_right_up)
+if (x_right_down >= x_dir):
+    x_right_down = x_dir
+    z_right_down = (tan_theta*x_dir)-(tan_theta*x_right_up)
 
-# z_left_up = 0
-# z_right_up = 0
+z_left_up = 0
+z_right_up = 0
 
-# ###### END grain boundary refinement calculations #######
+###### END grain boundary refinement calculations #######
 
 
 
@@ -227,47 +227,47 @@ v6 = gmsh.model.occ.addVolume([sloop6])
 
 
 
-# # Adding points for grain boundary refinement dummy volume
-# p19 = gmsh.model.occ.addPoint(x_left_up, -y_dir, z_left_up, gb_refine)
-# p20 = gmsh.model.occ.addPoint(x_right_up, -y_dir, z_right_up, gb_refine)
-# p21 = gmsh.model.occ.addPoint(x_left_up, y_dir, z_left_up, gb_refine)
-# p22 = gmsh.model.occ.addPoint(x_right_up, y_dir, z_right_up, gb_refine)
-# p23 = gmsh.model.occ.addPoint(x_left_down, -y_dir, z_left_down, gb_refine)
-# p24 = gmsh.model.occ.addPoint(x_right_down, -y_dir, z_right_down, gb_refine)
-# p25 = gmsh.model.occ.addPoint(x_left_down, y_dir, z_left_down, gb_refine)
-# p26 = gmsh.model.occ.addPoint(x_right_down, y_dir, z_right_down, gb_refine)
+# Adding points for grain boundary refinement dummy volume
+p19 = gmsh.model.occ.addPoint(x_left_up, -y_dir, z_left_up, gb_refine)
+p20 = gmsh.model.occ.addPoint(x_right_up, -y_dir, z_right_up, gb_refine)
+p21 = gmsh.model.occ.addPoint(x_left_up, y_dir, z_left_up, gb_refine)
+p22 = gmsh.model.occ.addPoint(x_right_up, y_dir, z_right_up, gb_refine)
+p23 = gmsh.model.occ.addPoint(x_left_down, -y_dir, z_left_down, gb_refine)
+p24 = gmsh.model.occ.addPoint(x_right_down, -y_dir, z_right_down, gb_refine)
+p25 = gmsh.model.occ.addPoint(x_left_down, y_dir, z_left_down, gb_refine)
+p26 = gmsh.model.occ.addPoint(x_right_down, y_dir, z_right_down, gb_refine)
 
-# # Adding lines..
-# c29 = gmsh.model.occ.addLine(p19, p23)
-# c30 = gmsh.model.occ.addLine(p20, p24)
-# c31 = gmsh.model.occ.addLine(p21, p25)
-# c32 = gmsh.model.occ.addLine(p22, p26)
-# c33 = gmsh.model.occ.addLine(p19, p21)
-# c34 = gmsh.model.occ.addLine(p22, p20)
-# c35 = gmsh.model.occ.addLine(p23, p25)
-# c36 = gmsh.model.occ.addLine(p26, p24)
-# c37 = gmsh.model.occ.addLine(p19, p20)
-# c38 = gmsh.model.occ.addLine(p21, p22)
-# c39 = gmsh.model.occ.addLine(p23, p24)
-# c40 = gmsh.model.occ.addLine(p25, p26)
+# Adding lines..
+c29 = gmsh.model.occ.addLine(p19, p23)
+c30 = gmsh.model.occ.addLine(p20, p24)
+c31 = gmsh.model.occ.addLine(p21, p25)
+c32 = gmsh.model.occ.addLine(p22, p26)
+c33 = gmsh.model.occ.addLine(p19, p21)
+c34 = gmsh.model.occ.addLine(p22, p20)
+c35 = gmsh.model.occ.addLine(p23, p25)
+c36 = gmsh.model.occ.addLine(p26, p24)
+c37 = gmsh.model.occ.addLine(p19, p20)
+c38 = gmsh.model.occ.addLine(p21, p22)
+c39 = gmsh.model.occ.addLine(p23, p24)
+c40 = gmsh.model.occ.addLine(p25, p26)
 
-# # surfaces
-# cloop17 = gmsh.model.occ.addCurveLoop([c29, c35, c31, c33])
-# s17 = gmsh.model.occ.addPlaneSurface([cloop17])
-# cloop18 = gmsh.model.occ.addCurveLoop([c30, c36, c32, c34])
-# s18 = gmsh.model.occ.addPlaneSurface([cloop18])
-# cloop19 = gmsh.model.occ.addCurveLoop([c37, c33, c38, c34])
-# s19 = gmsh.model.occ.addPlaneSurface([cloop19])
-# cloop20 = gmsh.model.occ.addCurveLoop([c39, c36, c40, c35])
-# s20 = gmsh.model.occ.addPlaneSurface([cloop20])
-# cloop21 = gmsh.model.occ.addCurveLoop([c29, c39, c30, c37])
-# s21 = gmsh.model.occ.addPlaneSurface([cloop21])
-# cloop22 = gmsh.model.occ.addCurveLoop([c31, c40, c32, c38])
-# s22 = gmsh.model.occ.addPlaneSurface([cloop22])
+# surfaces
+cloop17 = gmsh.model.occ.addCurveLoop([c29, c35, c31, c33])
+s17 = gmsh.model.occ.addPlaneSurface([cloop17])
+cloop18 = gmsh.model.occ.addCurveLoop([c30, c36, c32, c34])
+s18 = gmsh.model.occ.addPlaneSurface([cloop18])
+cloop19 = gmsh.model.occ.addCurveLoop([c37, c33, c38, c34])
+s19 = gmsh.model.occ.addPlaneSurface([cloop19])
+cloop20 = gmsh.model.occ.addCurveLoop([c39, c36, c40, c35])
+s20 = gmsh.model.occ.addPlaneSurface([cloop20])
+cloop21 = gmsh.model.occ.addCurveLoop([c29, c39, c30, c37])
+s21 = gmsh.model.occ.addPlaneSurface([cloop21])
+cloop22 = gmsh.model.occ.addCurveLoop([c31, c40, c32, c38])
+s22 = gmsh.model.occ.addPlaneSurface([cloop22])
 
-# # Make grain boundary volume
-# sloop4 = gmsh.model.occ.addSurfaceLoop([s17, s18, s19, s20, s21])
-# v4 = gmsh.model.occ.addVolume([sloop4])
+# Make grain boundary volume
+sloop4 = gmsh.model.occ.addSurfaceLoop([s17, s18, s19, s20, s21])
+v4 = gmsh.model.occ.addVolume([sloop4])
 
 # Adding mesh refinement for pump region in transducer
 p27 = gmsh.model.occ.addPoint(xcen, ycen, trans_thick, trans_thick_ref)
