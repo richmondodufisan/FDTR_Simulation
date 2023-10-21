@@ -78,6 +78,8 @@ for x0_val_num in "${x0_vals_num[@]}"; do
 
 			# Submit job
 			sbatch FDTR_Batch_MOOSE.sh
+			sleep 300
+
 		done
 	done
 done

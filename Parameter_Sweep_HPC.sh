@@ -11,11 +11,11 @@ final_period=1.0
 
 # Define the range of values you want to loop over
 
-#x0_vals_num=("0")
+#x0_vals_num=("-8")
 
-#freq_vals_num=("4e6")
+#freq_vals_num=("6e6")
 
-#theta_vals_num=("0" "75")
+#theta_vals_num=("75")
 
 x0_vals_num=("-15" "-10" "-9" "-8" "-7" "-6" "-5" "-4" "-3" "-2" "-1" "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" "10" "15")
 
@@ -81,6 +81,8 @@ for x0_val_num in "${x0_vals_num[@]}"; do
 
 			# Submit job
 			sbatch FDTR_Batch_MOOSE.sh
+			sleep 300
+
 		done
 	done
 done
