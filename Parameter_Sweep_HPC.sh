@@ -73,7 +73,7 @@ for x0_val_num in "${x0_vals_num[@]}"; do
 			
 			# Copy and create a new batch script
 			new_batch_script="FDTR_Batch_MOOSE_theta_${theta_val_num}_freq_${freq_val_num}_x0_${x0_val_num}_v1.sh"
-			cp "$FDTR_Batch_MOOSE.sh" "$new_batch_script"
+			cp "FDTR_Batch_MOOSE.sh" "$new_batch_script"
 			
 			# Replace the input file in the Batch script
 			sed -i "0,/script_name=[^ ]*/s/script_name=[^ ]*/script_name=\"$new_filename\"/" "$new_batch_script"
