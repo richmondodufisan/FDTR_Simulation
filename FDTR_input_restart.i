@@ -32,7 +32,7 @@ dt_val = ${fparse 5.0*(dphase/360.0)*period*tp}
 #prev_end_val = ${fparse 2.2*period*tp*(prev_end/2.0)}
 
 # hard coded because of issues converting float to int
-last_timestep = 792
+last_timestep = 396
 
 start_period = 0.0
 start_val = ${fparse 2.2*period*tp*(start_period/2.0)}
