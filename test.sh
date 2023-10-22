@@ -33,17 +33,17 @@ first_period=$n_periods_per_job
 
 # Define the range of values you want to loop over
 
-x0_vals_num=("0")
+#x0_vals_num=("0")
 
-freq_vals_num=("6e6")
+#freq_vals_num=("6e6")
 
-theta_vals_num=("75")
+#theta_vals_num=("75")
 
-# x0_vals_num=("-15" "-10" "-9" "-8" "-7" "-6" "-5" "-4" "-3" "-2" "-1" "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" "10" "15")
+x0_vals_num=("-15" "-10" "-9" "-8" "-7" "-6" "-5" "-4" "-3" "-2" "-1" "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" "10" "15")
 
-# freq_vals_num=("1e6" "2e6" "4e6" "6e6" "10e6")
+freq_vals_num=("1e6" "2e6" "4e6" "6e6" "10e6")
 
-# theta_vals_num=("0")
+theta_vals_num=("0")
 
 
 # Loop over values

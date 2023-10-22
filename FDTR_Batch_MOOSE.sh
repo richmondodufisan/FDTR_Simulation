@@ -10,7 +10,12 @@
 script_name="FDTR_input_theta_0_freq_1e6_x0_-15_v1.i"
 
 # Generate a random sleep duration between 1 and 1000 seconds
-sleep_duration=$((1 + RANDOM % 1000))
+sleep_duration=$((1 + RANDOM % 100))
+
+module purge
+module use /software/spack_v20d1/spack/share/spack/modules/linux-rhel7-x86_64/
+module load singularity
+module load mpi/mpich-4.0.2-gcc-10.4.0
 
 # Sleep for the randomly generated duration
 sleep $sleep_duration
