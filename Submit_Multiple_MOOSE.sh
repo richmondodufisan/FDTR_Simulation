@@ -2,7 +2,7 @@
 
 # Function to check if there are any jobs in the Slurm queue
 function check_squeue() {
-    squeue_output=$(squeue -u vtw1026)  # Replace with your actual username
+    squeue_output=$(squeue -u vtw1026 -h)  # Replace with your actual username
     if [ -z "$squeue_output" ]; then
         return 0  # No jobs in the queue
     else
