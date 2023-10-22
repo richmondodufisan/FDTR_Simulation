@@ -1,5 +1,10 @@
 #!/bin/bash
 
+module purge
+module use /software/spack_v20d1/spack/share/spack/modules/linux-rhel7-x86_64/
+module load singularity
+module load mpi/mpich-4.0.2-gcc-10.4.0
+
 # Function to check if there are any jobs in the Slurm queue
 function check_squeue() {
     squeue_output=$(squeue -u vtw1026 -h)  # Replace with your actual username
