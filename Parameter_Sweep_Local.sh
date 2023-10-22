@@ -52,8 +52,8 @@ for x0_val_num in "${x0_vals_num[@]}"; do
 		#echo "$new_mesh_name"
 		
 		# Make new 3D mesh
-		python3 FDTR_mesh.py >> gmsh_output.txt &
-		wait
+		#python3 FDTR_mesh.py >> gmsh_output.txt &
+		#wait
 		
 		echo "Mesh Generated, x0 = ${x0_val_num}, theta = ${theta_val_num}"
 		
@@ -79,8 +79,8 @@ for x0_val_num in "${x0_vals_num[@]}"; do
 			# Replace the end period
 			sed -i "s/\(end_period\s*=\s*\)[0-9.eE+-]\+/\1$first_period/g" "$new_filename"
 			
-			mpiexec -n 4 ../purple-opt -i ${new_filename} &
-			wait
+			#mpiexec -n 4 ../purple-opt -i ${new_filename} &
+			#wait
 		done
 	done
 done
@@ -146,8 +146,8 @@ while [ $submission_count -lt $n_iterations ]; do
 				
 				############# END Replacing end and start periods #############
 				
-				mpiexec -n 4 ../purple-opt -i ${new_filename} &
-				wait		
+				#mpiexec -n 4 ../purple-opt -i ${new_filename} &
+				#wait		
 			done
 		done
 	done
