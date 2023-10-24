@@ -77,9 +77,18 @@ t_val = ${fparse 2.2*period*tp*(end_period/2.0)}
 	new_sideset_name = top_pump_area
   []
   
-  [top_no_pump]
+  [applied_pump_sample]
     type = ParsedGenerateSideset
 	input = applied_pump_area
+	combinatorial_geometry = '(z > 0.0-1e-8) & (z < 0.0+1e-8) & (((x-x0)^2 + (y-y0)^2)< 64)'
+	constant_names = 'x0 y0'
+	constant_expressions = '${x0_val} ${y0_val}'
+	new_sideset_name = sample_pump_area
+  []
+  
+  [top_no_pump]
+    type = ParsedGenerateSideset
+	input = applied_pump_sample
 	combinatorial_geometry = '(z > ${transducer_thickness}-1e-8) & (z < ${transducer_thickness}+1e-8) & (((x-x0)^2 + (y-y0)^2) >= 64)'
 	constant_names = 'x0 y0'
 	constant_expressions = '${x0_val} ${y0_val}'
@@ -114,15 +123,11 @@ t_val = ${fparse 2.2*period*tp*(end_period/2.0)}
     order = FIRST
     family = LAGRANGE
 	block = transducer_material
-	initial_from_file_var = temp_trans
-    initial_from_file_timestep = ${last_timestep}
   []
   [temp_samp]
     order = FIRST
     family = LAGRANGE
 	block = sample_material
-	initial_from_file_var = temp_samp
-    initial_from_file_timestep = ${last_timestep}
   []
 []
 
@@ -174,6 +179,8 @@ t_val = ${fparse 2.2*period*tp*(end_period/2.0)}
 [AuxVariables]
   [avg_surf_temp]
   []
+  [sample_avg_surf_temp]
+  []
   [bulk_gb_dist]
     order = FIRST
     family = MONOMIAL
@@ -191,6 +198,16 @@ t_val = ${fparse 2.2*period*tp*(end_period/2.0)}
 	expression = '((temp_trans-T0)/(pi*(Rprobe^2)))*exp((-((x-x0)^2+(y-y0)^2))/(Rprobe^2))'
 	block = transducer_material
   []
+  [sample_average_surface_temperature]
+    type = ParsedAux
+    variable = avg_surf_temp
+    coupled_variables = 'temp_samp'
+	constant_names = 'x0 y0 Rprobe T0 pi'
+	constant_expressions = '${x0_val} ${y0_val} ${probe_radius} ${room_temperature} 3.14159265359'
+	use_xyzt = true
+	expression = '((temp_samp-T0)/(pi*(Rprobe^2)))*exp((-((x-x0)^2+(y-y0)^2))/(Rprobe^2))'
+	block = sample_material
+  []
   [visualize_gb]
     type = ADMaterialRealAux
 	variable = bulk_gb_dist
@@ -200,10 +217,15 @@ t_val = ${fparse 2.2*period*tp*(end_period/2.0)}
 []
 
 [Postprocessors]
-  [integral]
+  [integral_trans]
     type = SideIntegralVariablePostprocessor
     boundary = 'top_pump_area'
     variable = avg_surf_temp
+  []
+  [integral_samp]
+    type = SideIntegralVariablePostprocessor
+    boundary = 'sample_pump_area'
+    variable = sample_avg_surf_temp
   []
 []
 
