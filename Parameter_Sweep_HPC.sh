@@ -40,7 +40,7 @@ first_period=$n_periods_per_job
 
 #x0_vals_num=("0")
 
-#freq_vals_num=("6e6")
+#freq_vals_num=("1e6")
 
 #theta_vals_num=("75")
 
@@ -112,7 +112,7 @@ for x0_val_num in "${x0_vals_num[@]}"; do
 
 			# Submit job
 			sbatch $new_batch_script
-			sleep 10
+			sleep 2
 		done
 	done
 done
@@ -198,7 +198,7 @@ while [ $submission_count -lt $n_iterations ]; do
 
 					# Submit job
 					sbatch $new_batch_script
-					sleep 10			
+					sleep 2			
 				done
 			done
 		done
