@@ -68,15 +68,6 @@ t_val = ${fparse 2.2*period*tp*(end_period/2.0)}
 	new_sideset_name = top_pump_area
   []
   
-  [applied_pump_area]
-    type = ParsedGenerateSideset
-	input = rename
-	combinatorial_geometry = '(z > ${transducer_thickness}-1e-8) & (z < ${transducer_thickness}+1e-8) & (((x-x0)^2 + (y-y0)^2)< 64)'
-	constant_names = 'x0 y0'
-	constant_expressions = '${x0_val} ${y0_val}'
-	new_sideset_name = top_pump_area
-  []
-  
   [applied_pump_sample]
     type = ParsedGenerateSideset
 	input = applied_pump_area
