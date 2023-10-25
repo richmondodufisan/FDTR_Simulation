@@ -123,11 +123,15 @@ t_val = ${fparse 2.2*period*tp*(end_period/2.0)}
     order = FIRST
     family = LAGRANGE
 	block = transducer_material
+	initial_from_file_var = temp_trans
+    initial_from_file_timestep = ${last_timestep}
   []
   [temp_samp]
     order = FIRST
     family = LAGRANGE
 	block = sample_material
+	initial_from_file_var = temp_samp
+    initial_from_file_timestep = ${last_timestep}
   []
 []
 
