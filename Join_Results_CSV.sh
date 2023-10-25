@@ -36,7 +36,7 @@ for x0 in "${x0_vals_num[@]}"; do
 			# Concatenate data to the output file using printf in awk, stopping at the specified line
 			awk -v freq="$freq" -v x0="$x0" -v stop_line="$stop_line_number" -F, 'NR>2{
 				if (NR <= stop_line) {
-					printf "%s, %s, %.20f, %.20f\n", x0, freq / 1e6, $1 * 1e6, $2
+					printf "%s, %s, %.20f, %.20f\n", x0, freq / 1e6, $1 * 1e6, $3
 				}
 			}' "$input_file" >> "$output_file"
 			
