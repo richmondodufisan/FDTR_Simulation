@@ -7,7 +7,7 @@ tp = 1
 transducer_thickness = 0.09
 probe_radius = 1.34
 pump_radius = 1.53
-pump_power = 0.01
+pump_power = 0.35
 pump_absorbance = 0.0767
 room_temperature = 293.15
 gb_width_val = 0.1
@@ -57,6 +57,15 @@ t_val = ${fparse 2.2*period*tp*(end_period/2.0)}
     old_block = '1 2'
     new_block = 'sample_material transducer_material'
     input = transducer_block
+  []
+  
+  [applied_pump_area]
+    type = ParsedGenerateSideset
+	input = rename
+	combinatorial_geometry = '(z > ${transducer_thickness}-1e-8) & (z < ${transducer_thickness}+1e-8) & (((x-x0)^2 + (y-y0)^2)< 64)'
+	constant_names = 'x0 y0'
+	constant_expressions = '${x0_val} ${y0_val}'
+	new_sideset_name = top_pump_area
   []
   
   [applied_pump_area]
@@ -191,7 +200,7 @@ t_val = ${fparse 2.2*period*tp*(end_period/2.0)}
   []
   [sample_average_surface_temperature]
     type = ParsedAux
-    variable = avg_surf_temp
+    variable = sample_avg_surf_temp
     coupled_variables = 'temp_samp'
 	constant_names = 'x0 y0 Rprobe T0 pi'
 	constant_expressions = '${x0_val} ${y0_val} ${probe_radius} ${room_temperature} 3.14159265359'
