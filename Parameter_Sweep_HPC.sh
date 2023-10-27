@@ -17,7 +17,7 @@ function check_squeue() {
 
 
 # Set the maximum number of times to submit the batch job
-n_iterations=2
+n_iterations=15
 
 # Set the number of periods each job/sweep should solve for
 n_periods_per_job=1.0
@@ -68,8 +68,8 @@ for x0_val_num in "${x0_vals_num[@]}"; do
 		#echo "$new_mesh_name"
 		
 		# Make new 3D mesh
-		#python3 FDTR_mesh.py >> gmsh_output.txt &
-		#wait
+		python3 FDTR_mesh.py >> gmsh_output.txt &
+		wait
 		
 		# Submit Job
 		#sbatch --wait FDTR_Batch_gmsh.sh
