@@ -33,7 +33,7 @@ prev_end_val = ${fparse 2.2*period*tp*(prev_end/2.0)}
 
 # hard coded because of issues converting float to int
 #last_timestep = 396
-last_timestep = ${fparse round(((prev_end_val - prev_start_val)/dt_val))}
+last_timestep = ${fparse int(((prev_end_val - prev_start_val)/dt_val))}
 
 start_period = 0.0
 start_val = ${fparse 2.2*period*tp*(start_period/2.0)}
