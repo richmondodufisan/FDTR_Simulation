@@ -12,7 +12,7 @@ echo $stop_line_number
 output_file="../MOOSE_theta_${theta_angle}_T2_withGB.csv"
 
 # Create header for the output file
-echo "freq, x0, time, delta_temp" > "$output_file"
+echo "x0, freq, time, delta_temp" > "$output_file"
 
 # Get a list of files that fit the pattern using ls -d
 # file_list=$(ls -d fdtr_input_freq_*_x0_*.csv)
