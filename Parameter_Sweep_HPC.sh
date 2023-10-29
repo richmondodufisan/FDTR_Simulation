@@ -68,8 +68,8 @@ for x0_val_num in "${x0_vals_num[@]}"; do
 		#echo "$new_mesh_name"
 		
 		# Make new 3D mesh
-		#python3 FDTR_mesh.py >> gmsh_output.txt &
-		#wait
+		python3 FDTR_mesh.py >> gmsh_output.txt &
+		wait
 		
 		# Submit Job
 		#sbatch --wait FDTR_Batch_gmsh.sh
@@ -111,15 +111,21 @@ for x0_val_num in "${x0_vals_num[@]}"; do
 			sed -E -i "s/(#SBATCH --job-name=)[^[:space:]]+/\1${x0_val_num}${freq_noexp}${theta_val_num}/" "$new_batch_script"
 
 			# Submit job
-			#sbatch $new_batch_script
+			sbatch $new_batch_script
 			#sleep 2
 		done
 	done
 done
 
-submission_count=2
-#o_start=$start_val
-o_start=1.0
+submission_count=1
+
+# Change this value to continue from nth simulation
+#submission_count=2
+
+o_start=$start_val
+
+# Change this value to the start period of the nth simulation
+#o_start=1.0
 
 #Initial input file name
 init_filename="FDTR_input"
