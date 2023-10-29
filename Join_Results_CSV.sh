@@ -1,13 +1,13 @@
 #!/bin/bash
 
-n_iterations=2
+n_iterations=4
 
 theta_angle=0
-n_periods_per_iteration=1
+n_periods_per_iteration=0.5
 
 dphase=0.2
 
-n_timesteps=$(python3 -c "import math; print(round((1.1*$n_periods_per_iteration)/((3.5*$dphase)/360)))")
+n_timesteps=$(python3 -c "import math; print(round((1.1*$n_periods_per_iteration)/((2.5*$dphase)/360)))")
 
 stop_line_number=$(python3 -c "import math; print(($n_timesteps*$n_periods_per_iteration)+1)")
 
