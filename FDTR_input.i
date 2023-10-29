@@ -24,7 +24,7 @@ theta_deg = 0
 theta_rad = ${fparse (theta_deg/180)*pi}
 
 period = ${fparse 1/freq_val}
-dt_val = ${fparse 2.5*(dphase/360.0)*period*tp}
+dt_val = ${fparse 3.5*(dphase/360.0)*period*tp}
 
 start_period = 0.0
 start_val = ${fparse 2.2*period*tp*(start_period/2.0)}
