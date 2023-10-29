@@ -117,8 +117,9 @@ for x0_val_num in "${x0_vals_num[@]}"; do
 	done
 done
 
-submission_count=1
-o_start=$start_val
+submission_count=2
+#o_start=$start_val
+o_start=1.0
 
 #Initial input file name
 init_filename="FDTR_input"
