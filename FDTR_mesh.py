@@ -21,9 +21,9 @@ y_dir = 20
 z_dir = 40
 gb_width = 0.1
 
-pump_refine = 0.25
+pump_refine = 0.35
 reg_element_refine = 4
-gb_refine = 2
+gb_refine = 0.5
 
 # Initialize gb refinement values
 x_left_up = 0
