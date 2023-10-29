@@ -134,6 +134,12 @@ while [ $submission_count -lt $n_iterations ]; do
     if [ $? -eq 0 ]; then
 		echo "No jobs in the queue. Submitting batch job script..."
 
+		# Delete mesh files from older submission
+                if [ $submission_count -gt 1 ]; then
+                        older_submission=$((submission_count - 1))
+                	rm *v${older_submission}_out.e*
+                fi
+
 		o_ver=$(echo "$submission_count" | bc -l)
 		n_ver=$(echo "$submission_count + 1" | bc -l)
 		former_sim_ver="v${o_ver}"
@@ -153,12 +159,6 @@ while [ $submission_count -lt $n_iterations ]; do
 		for x0_val_num in "${x0_vals_num[@]}"; do
 			for theta_val_num in "${theta_vals_num[@]}"; do
 				for freq_val_num in "${freq_vals_num[@]}"; do
-					
-					# Delete mesh files from older submission			
-					if [ $submission_count -gt 1 ]; then
-						older_submission=$((submission_count - 1))
-						rm *v${older_submission}_out.e*
-					fi
 
 					# Create a new filename by appending x0_val to the original filename
 					new_filename="${init_filename}_theta_${theta_val_num}_freq_${freq_val_num}_x0_${x0_val_num}_${new_sim_ver}.i"
