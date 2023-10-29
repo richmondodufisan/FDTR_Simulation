@@ -3,13 +3,18 @@
 n_iterations=2
 
 theta_angle=0
-n_periods=1
-stop_line_number=$(python3 -c "import math; print((396*$n_periods)+1)")
+n_periods_per_iteration=1
+
+dphase=0.2
+
+n_timesteps=$(python3 -c "import math; print(int((1.1*$n_periods_per_iteration)/((3.5*$dphase)/360)))")
+
+stop_line_number=$(python3 -c "import math; print(($n_timesteps*$n_periods_per_iteration)+1)")
 
 echo $stop_line_number
 
 # Output file
-output_file="../MOOSE_theta_${theta_angle}_T2_withGB.csv"
+output_file="../MOOSE_theta_${theta_angle}_T2_finetime.csv"
 
 # Create header for the output file
 echo "x0, freq, time, delta_temp" > "$output_file"
