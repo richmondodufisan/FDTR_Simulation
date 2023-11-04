@@ -5,25 +5,25 @@ import sys
 gmsh.initialize()
 gmsh.model.add("FDTR_mesh")
 
-newMeshName = "FDTR_mesh_x0_8_theta_0.msh"
+newMeshName = "FDTR_mesh_x0_0_theta_0.msh"
 
 theta = 0
-xcen = 8
+xcen = 0
 ycen = 0
 radius = 8
 trans_thick = 0.09
 
 dummy_factor = 3
-trans_thick_ref = 0.09
+trans_thick_ref = 1
 
 x_dir = 40
 y_dir = 20
 z_dir = 40
 gb_width = 0.1
 
-pump_refine = 0.3
-reg_element_refine = 4
-gb_refine = 0.7
+pump_refine = 4
+reg_element_refine = 12
+gb_refine = 5
 
 # Initialize gb refinement values
 x_left_up = 0
@@ -327,8 +327,8 @@ s36 = gmsh.model.occ.addSurfaceFilling(cloop36)
 cloop37 = gmsh.model.occ.addCurveLoop([c64, c60, c61, c52])
 s37 = gmsh.model.occ.addSurfaceFilling(cloop37)
 
-sloop7 = gmsh.model.occ.addSurfaceLoop([s33, s34, s34, s35, s36])
-v7 = gmsh.model.occ.addVolume([sloop5])
+sloop7 = gmsh.model.occ.addSurfaceLoop([s28, s33, s34, s35, s36])
+v7 = gmsh.model.occ.addVolume([sloop7])
 
 ##### END TRANSDUCER DUMMY SUB-VOLUME #####
 
@@ -382,4 +382,4 @@ gmsh.model.mesh.generate(3)
 
 gmsh.write(newMeshName)
 
-# gmsh.fltk.run()
+#gmsh.fltk.run()
