@@ -7,7 +7,7 @@ module load mpi/mpich-4.0.2-gcc-10.4.0
 
 # Function to check if there are any jobs in the Slurm queue
 function check_squeue() {
-    squeue_output=$(squeue -u vtw1026 -h)  # Replace with your actual username
+    squeue_output=$(squeue -t PD,R -u vtw1026 -h)  # Replace with your actual username
     if [ -z "$squeue_output" ]; then
         return 0  # No jobs in the queue
     else
@@ -38,17 +38,17 @@ first_period=$n_periods_per_job
 
 # Define the range of values you want to loop over
 
-#x0_vals_num=("0")
+x0_vals_num=("0")
 
-#freq_vals_num=("1e6")
-
-#theta_vals_num=("75")
-
-x0_vals_num=("-15" "-10" "-9" "-8" "-7" "-6" "-5" "-4" "-3" "-2" "-1" "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" "10" "15")
-
-freq_vals_num=("1e6" "2e6" "4e6" "6e6" "10e6")
+freq_vals_num=("1e6" "2e6")
 
 theta_vals_num=("0")
+
+#x0_vals_num=("-15" "-10" "-9" "-8" "-7" "-6" "-5" "-4" "-3" "-2" "-1" "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" "10" "15")
+
+#freq_vals_num=("1e6" "2e6" "4e6" "6e6" "10e6")
+
+#theta_vals_num=("0")
 
 
 # Loop over values
@@ -68,8 +68,8 @@ for x0_val_num in "${x0_vals_num[@]}"; do
 		#echo "$new_mesh_name"
 		
 		# Make new 3D mesh
-		python3 FDTR_mesh.py >> gmsh_output.txt &
-		wait
+		#python3 FDTR_mesh.py >> gmsh_output.txt &
+		#wait
 		
 		# Submit Job
 		#sbatch --wait FDTR_Batch_gmsh.sh
@@ -143,8 +143,12 @@ while [ $submission_count -lt $n_iterations ]; do
 		# Delete mesh files from older submission
                 if [ $submission_count -gt 1 ]; then
                         older_submission=$((submission_count - 1))
-                	rm *v${older_submission}_out.e*
+                	rm *v${older_submission}*e
                 fi
+
+		rm *v${older_submission}*i
+		rm FDTR_Batch_MOOSE_theta_*
+
 
 		o_ver=$(echo "$submission_count" | bc -l)
 		n_ver=$(echo "$submission_count + 1" | bc -l)
