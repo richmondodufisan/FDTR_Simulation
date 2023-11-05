@@ -98,21 +98,16 @@ for x0_val_num in "${x0_vals_num[@]}"; do
 			# Replace the end period
 			sed -i "s/\(end_period\s*=\s*\)[0-9.eE+-]\+/\1$first_period/g" "$new_filename"
 			
-			# Copy and create a new batch script
-			new_batch_script="FDTR_Batch_MOOSE_theta_${theta_val_num}_freq_${freq_val_num}_x0_${x0_val_num}_v1.sh"
-			cp "FDTR_Batch_MOOSE.sh" "$new_batch_script"
-			
 			# Replace the input file in the Batch script
-			sed -i "0,/script_name=[^ ]*/s/script_name=[^ ]*/script_name=\"$new_filename\"/" "$new_batch_script"
+			sed -i "0,/script_name=[^ ]*/s/script_name=[^ ]*/script_name=\"$new_filename\"/" "FDTR_Batch_MOOSE.sh"
 			
 			freq_noexp=$(python3 -c "import math; print(int($freq_val_num*1e-6))")
 			
 			# Replace the job name
-			sed -E -i "s/(#SBATCH --job-name=)[^[:space:]]+/\1${x0_val_num}${freq_noexp}${theta_val_num}/" "$new_batch_script"
+			sed -E -i "s/(#SBATCH --job-name=)[^[:space:]]+/\1${x0_val_num}${freq_noexp}${theta_val_num}/" "FDTR_Batch_MOOSE.sh"
 
 			# Submit job
-			sbatch $new_batch_script
-			#sleep 2
+			sbatch FDTR_Batch_MOOSE.sh
 		done
 	done
 done
@@ -136,8 +131,7 @@ extension=".i"
 
 # RESTART Loop
 while [ $submission_count -lt $n_iterations ]; do
-    check_squeue
-    if [ $? -eq 0 ]; then
+    if check_squeue; then
 		echo "No jobs in the queue. Submitting batch job script..."
 
 		# Delete mesh files from older submission
@@ -145,15 +139,14 @@ while [ $submission_count -lt $n_iterations ]; do
                         older_submission=$((submission_count - 1))
                 	rm *v${older_submission}*e
                 fi
-
-		rm *v${older_submission}*i
-		rm FDTR_Batch_MOOSE_theta_*
-
+		
 
 		o_ver=$(echo "$submission_count" | bc -l)
 		n_ver=$(echo "$submission_count + 1" | bc -l)
 		former_sim_ver="v${o_ver}"
 		new_sim_ver="v${n_ver}"
+		
+		rm rm *${former_sim_ver}*i
 
 		o_stop=$(echo "$o_start + $n_periods_per_job" | bc -l)
 		n_stop=$(echo "$o_stop + $n_periods_per_job" | bc -l)
@@ -199,27 +192,19 @@ while [ $submission_count -lt $n_iterations ]; do
 					
 					############# END Replacing end and start periods #############
 					
-					# Copy and create a new batch script
-					new_batch_script="FDTR_Batch_MOOSE_theta_${theta_val_num}_freq_${freq_val_num}_x0_${x0_val_num}_${new_sim_ver}.sh"
-					cp "FDTR_Batch_MOOSE.sh" "$new_batch_script"
-					
-					
 					# Replace the input file in the Batch script
-					sed -i "0,/script_name=[^ ]*/s/script_name=[^ ]*/script_name=\"$new_filename\"/" "$new_batch_script"
+					sed -i "0,/script_name=[^ ]*/s/script_name=[^ ]*/script_name=\"$new_filename\"/" "FDTR_Batch_MOOSE.sh"
 					
 					freq_noexp=$(python3 -c "import math; print(int($freq_val_num*1e-6))")
 					
 					# Replace the job name
-					sed -E -i "s/(#SBATCH --job-name=)[^[:space:]]+/\1${x0_val_num}${freq_noexp}${theta_val_num}/" "$new_batch_script"
-
+					sed -E -i "s/(#SBATCH --job-name=)[^[:space:]]+/\1${x0_val_num}${freq_noexp}${theta_val_num}/" "FDTR_Batch_MOOSE.sh"
 
 					# Submit job
-					sbatch $new_batch_script
-					#sleep 2			
+					sbatch FDTR_Batch_MOOSE.sh			
 				done
 			done
-		done
-		
+		done	
 		
 		submission_count=$((submission_count + 1))
 		o_start=$o_stop
