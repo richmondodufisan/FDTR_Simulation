@@ -8,7 +8,7 @@
 #SBATCH --job-name=020  ## When you run squeue -u NETID this is how you can identify the job
 
 
-script_name="FDTR_input_theta_0_freq_2e6_x0_0_v1.i"
+script_name="FDTR_input_theta_0_freq_2e6_x0_0_v2.i"
 
 #moose_exec.sh ../purple-opt -i ${script_name} --mesh-only
 #moose_exec.sh ../purple-opt -i ${script_name}
