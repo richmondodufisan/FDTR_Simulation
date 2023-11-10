@@ -5,9 +5,9 @@ import sys
 gmsh.initialize()
 gmsh.model.add("FDTR_mesh")
 
-newMeshName = "FDTR_mesh_x0_15_theta_0.msh"
+newMeshName = "FDTR_mesh_x0_15_theta_75.msh"
 
-theta = 0
+theta = 75
 xcen = 15
 ycen = 0
 radius = 8
