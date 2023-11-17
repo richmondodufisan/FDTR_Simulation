@@ -1,6 +1,6 @@
 #!/bin/bash
 
-n_iterations=4
+n_iterations=16
 
 theta_angle=75
 n_periods_per_iteration=0.5
@@ -14,7 +14,7 @@ stop_line_number=$(python3 -c "import math; print($n_timesteps+1)")
 echo $stop_line_number
 
 # Output file
-output_file="../MOOSE_theta_${theta_angle}_T2_refined.csv"
+output_file="../MOOSE_theta_${theta_angle}_iteration_${n_iterations}_refined.csv"
 
 # Create header for the output file
 echo "x0, freq, time, delta_temp" > "$output_file"
